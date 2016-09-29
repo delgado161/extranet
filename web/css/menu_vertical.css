@@ -1,0 +1,55 @@
+/* 
+    Document   : menu_vertical
+    Created on : 24-sep-2016, 19:17:10
+    Author     : Roberto
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.bloque_{
+    padding: 10px;
+    color:white;
+    background: graytext;
+}
+
+.bloque_hijos{
+
+
+    /*margin-left: 20px;*/
+    color:white;
+    border-bottom: 1px solid white; 
+}
+
+.bloque_ i{
+    font-size: 18px; 
+}
+
+.bloque_hijos i{
+    float: right;
+    font-size: 14px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.bloque_hijos div:hover{
+    background: #5DB12E;
+    color: #0E4194;
+}
+
+.bloque_hijos:hover{
+    background: darkslategrey;
+
+}
+
+
+.bloque_hijos div>a{
+    color: white;
+}
+
+
+.bloque_hijos div{
+    padding: 5px;
+    padding-left: 30px;
+
+
+}
