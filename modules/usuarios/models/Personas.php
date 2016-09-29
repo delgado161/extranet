@@ -194,8 +194,8 @@ class Personas extends \yii\db\ActiveRecord {
 
         // rendering information about crop of ONE option 
         $cropInfo = Json::decode($this->crop_info)[0];
-        $cropInfo['dWidth'] = (int) $cropInfo['dWidth']; //new width image
-        $cropInfo['dHeight'] = (int) $cropInfo['dHeight']; //new height image
+        $cropInfo['dWidth'] = (int) $cropInfo['dw']; //new width image
+        $cropInfo['dHeight'] = (int) $cropInfo['dh']; //new height image
         $cropInfo['x'] = abs($cropInfo['x']);
         $cropInfo['y'] = abs($cropInfo['y']);
         // Properties bolow we don't use in this example
@@ -216,7 +216,7 @@ class Personas extends \yii\db\ActiveRecord {
         }
 
         //saving thumbnail
-        $newSizeThumb = new Box($cropInfo['dw'], $cropInfo['dh']);
+        $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
         $cropSizeThumb = new Box(200, 200); //frame size of crop
         $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
         $pathThumbImage = Yii::getAlias('uploads/personas/image')

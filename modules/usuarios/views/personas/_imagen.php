@@ -8,10 +8,22 @@ use bupy7\cropbox\Cropbox;
     <?php
     echo $form->field($model, 'foto')->widget(Cropbox::className(), [
         'attributeCropInfo' => 'crop_info',
-        'previewUrl' => [
-            'uploads/personas/image/thumb_928.jpg'
-        ],
-        'originalUrl' => 'uploads/personas/image/928.jpg',
+//        'previewUrl' => [
+//            'uploads/personas/image/thumb_928.jpg'
+//        ],
+        'optionsCropbox' => [
+            'boxWidth' => 320,
+            'boxHeight' => 320,
+            'cropSettings' => [
+                [
+                    'width' => 200,
+                    'height' => 200,
+                ],
+            ],
+        ]
+
+
+//        'originalUrl' => 'uploads/personas/image/928.jpg',
     ]);
     ?>
 </div>

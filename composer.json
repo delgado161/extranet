@@ -20,8 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "bupy7/yii2-widget-cropbox": "*",
         "yiisoft/yii2-imagine": "~2.0.0",
-        "yiisoft/yii2-jui": "~2.0.0",
-        "budyaga/yii2-cropper": "*"
+        "yiisoft/yii2-jui": "~2.0.0"
+        
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
