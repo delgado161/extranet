@@ -49,11 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $this->render('_form', ['model' => $model, 'form' => $form]) ?>
             </div>
             <div class="bhoechie-tab-content" >
-                <?= $this->render('_direccion', ['model' => $model, 'form' => $form]) ?>
+                <?= $this->render('_direccion', ['model_direcciones' => $model_direcciones, 'form' => $form]) ?>
             </div>
             <div class="bhoechie-tab-content">
                 <?= $this->render('_imagen', ['model' => $model, 'form' => $form]) ?>
- 
+
             </div>
             <div class="bhoechie-tab-content">
                 <?= $this->render('_cargo', ['model' => $model, 'form' => $form]) ?>
@@ -85,15 +85,28 @@ $this->params['breadcrumbs'][] = $this->title;
     var markers = [];
 
     function initMap() {
-        map = new google.maps.Map(mapDiv, {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
-        });
+        if ($('#direcciones-lat').val() == '' && $('#direcciones-lng').val() == '' ) {
+            map = new google.maps.Map(mapDiv, {
+                center: {lat: 10.5, lng: -66.91667},
+                zoom: 8
+            });
+        } else {
+            map = new google.maps.Map(mapDiv, {
+                center: {lat:$('#direcciones-lat').val(), lng: $('#direcciones-lng').val()},
+                zoom: 8
+            });
+
+
+        }
+
+
 
 
 
         map.addListener('click', function (event) {
-//            alert(event.latLng.lat());
+            $('#direcciones-lat').val(event.latLng.lat());
+             $('#direcciones-lng').val(event.latLng.lng());
+//            alert(event.latLng.lat() + "--" + event.latLng.lng());
             clearMarkers();
             addMarker(event.latLng);
 

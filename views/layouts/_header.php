@@ -13,14 +13,18 @@
                     </span>
                 </div> 
             </div>
+            <div class="btn_menu_h">
+                <i class="glyphicon glyphicon-th" aria-hidden="true"></i>
+            </div>
             <div class="info_user">
                 <?php
                 echo Yii::$app->user->identity->flPersona->nombre . " " . Yii::$app->user->identity->flPersona->s_nombre . " " .
                 Yii::$app->user->identity->flPersona->apellido . " " . Yii::$app->user->identity->flPersona->s_apellido;
                 ?>
-                <i class="glyphicon glyphicon-th" aria-hidden="true"></i>
+
             </div>
-            <div class="_img"><img src="uploads/personas/image/thumb_928.jpg" alt="" class="img"></div>
+
+            <div class="_img"><img src="uploads/personas/image/thumb_<?php echo Yii::$app->user->identity->id; ?>.jpg" alt="" class="img"></div>
             <div class="menu_login">
 
                 <div><i class="fa fa-user" aria-hidden="true"></i> Mi Perfil</div>

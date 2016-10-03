@@ -231,8 +231,8 @@ textarea {
 }
 
 .imageBox{
-/*    width: 320px !important;
-    height: 320px !important;*/
+    /*    width: 320px !important;
+        height: 320px !important;*/
     margin: 0 auto;
 }
 
@@ -248,3 +248,10 @@ textarea {
 ._img img{
     width: 50px;
 }
+
+.btn_menu_h{
+    float: right;
+    font-size: 28px;
+
+}
+

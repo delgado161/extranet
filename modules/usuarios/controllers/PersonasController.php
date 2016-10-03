@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use app\modules\usuarios\models\Direcciones;
 
 /**
  * PersonasController implements the CRUD actions for Personas model.
@@ -64,6 +65,7 @@ class PersonasController extends Controller {
      */
     public function actionCreate() {
         $model = new Personas();
+        $model_direcciones = new Direcciones();
 
 
         if ($model->load(Yii::$app->request->post())) {
@@ -77,10 +79,10 @@ class PersonasController extends Controller {
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id_persona]);
             } else {
-                return $this->render('create', ['model' => $model,]);
+                return $this->render('create', ['model' => $model,'model_direcciones' => $model_direcciones,]);
             }
         } else {
-            return $this->render('create', ['model' => $model,]);
+            return $this->render('create', ['model' => $model,'model_direcciones' => $model_direcciones,]);
         }
 
     }

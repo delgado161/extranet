@@ -7,14 +7,15 @@
 */
 
 .bloque_{
-    padding: 10px;
+    padding: 5px;
     color:white;
-    background: graytext;
+    background: #0E4194;
+    border-bottom: 1px solid white;
 }
 
 .bloque_hijos{
 
-
+    display: none;
     /*margin-left: 20px;*/
     color:white;
     border-bottom: 1px solid white; 
@@ -49,7 +50,33 @@
 
 .bloque_hijos div{
     padding: 5px;
-    padding-left: 30px;
+    padding-left: 42px;
 
 
 }
+
+
+.btn_vert_{
+    padding: 0;
+    background: black;
+    /*    margin-right: 5px;*/
+    width: 30px;
+    height: 30px;
+
+}
+
+.bloque_ .fl_down{
+    float: right;
+    margin-top: 5px;
+
+}
+
+
+.bloque_:hover , .bloque_ button:hover{
+    color:#63B22E !important;
+
+}
+
+
+
+

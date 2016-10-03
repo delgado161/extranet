@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <div class="menu_lateral">
     <div class="bloque_">
-        <i class="fa fa-user" aria-hidden="true"></i> Usuarios 
+      <button type="button" class="btn btn_vert_"><i class="fa fa-user" aria-hidden="true"></i> </button> Usuarios <i class="fa fa-caret-down fl_down" aria-hidden="true"></i> 
     </div>
     <div class="bloque_hijos">
         <div onclick="location.href = '<?php echo Url::to(['/usuarios/usuarios'], true) ?>'">Administrar <i class="fa fa-cogs" aria-hidden="true"></i> </div>
@@ -16,7 +16,7 @@ use yii\helpers\Html;
     </div>
 
     <div class="bloque_">
-        <i class="fa fa-users" aria-hidden="true"></i> Personas 
+         <button type="button" class="btn btn_vert_"><i class="fa fa-users" aria-hidden="true"></i> </button> Personas <i class="fa fa-caret-down fl_down" aria-hidden="true"></i> 
     </div>
     <div class="bloque_hijos">
         <div onclick="location.href = '<?php echo Url::to(['/usuarios/personas'], true) ?>'">Administrar <i class="fa fa-cogs" aria-hidden="true"></i> </div>
