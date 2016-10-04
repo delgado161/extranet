@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
-    $('#loading').show();
+//    $('#loading').show();
     $(document).on('pjax:complete', function () {
+        alert();
         $('.filters').toggle();
     });
 
@@ -15,6 +16,7 @@ $(document).ready(function () {
 
     $('.bloque_').click(function () {
         $(this).next('.bloque_hijos').toggle();
+        $(this).next('.bloque_hijos').find('.guia_').css('height', $(this).next('.bloque_hijos').height() -15);
 
         if ($(this).next('.bloque_hijos').is(':visible')) {
             $(this).find('.fl_down').css('transform', 'rotate(180deg)');
@@ -58,6 +60,11 @@ $(document).ready(function () {
     $('.btn_filter').click(function () {
         $('.filters').toggle();
     });
+
+    $('._chkbox').click(function () {
+        print_checkbox();
+    });
+
 
     $(window).resize(function () {
         vent_size();
@@ -152,3 +159,18 @@ function vent_size() {
 //    $('.nav_level1,.nav_level2,.contenido').css('max-width', ($(window).width() - $('.nav_logo').width() - 15));
 //    $('.contenido').width(($(window).width() - $('.nav_logo').width()));
 }
+
+function print_checkbox() {
+    var keys = $('#w0').yiiGridView('getSelectedRows');
+
+}
+
+function print_checkbox2(id) {
+    $('#' + id + " table tr").each(function () {
+//        
+//        $(this).attr('data-key');
+
+
+    });
+}
+

@@ -27,6 +27,8 @@ class AppAsset extends AssetBundle {
         'css/menu_vertical.css',
         'css/font-awesome/css/font-awesome.css',
         'css/font-awesome/css/font-awesome.min.css',
+        'css/style.css',
+        
     ];
     public $js = [
         'js/comun.js',

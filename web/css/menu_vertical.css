@@ -33,12 +33,12 @@
 }
 
 .bloque_hijos div:hover{
-    background: #5DB12E;
-    color: #0E4194;
+/*    background: #5DB12E;
+    color: #0E4194;*/
 }
 
 .bloque_hijos:hover{
-    background: darkslategrey;
+    /*background: darkslategrey;*/
 
 }
 

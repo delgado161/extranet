@@ -149,7 +149,13 @@ a:visited {
 
 .btn_crear{
     float: right;
-    margin-top: 5px;
+    /*    margin-top: -7px;*/
+}
+
+.panel-heading{
+    font-size: 25px;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    color:white !important;
 }
 
 
