@@ -18,7 +18,7 @@ class PersonasSEARCH extends Personas {
     public function rules() {
         return [
             [['id_persona', 'fk_cargo', 'fk_documento', 'status'], 'integer'],
-            [['n_documento', 'nombre', 'nombre_persona', 'apellido_persona',  's_nombre', 'apellido', 's_apellido', 'email_personal', 'email_corporativo', 'telefono', 'telefono_2', 'celular', 'fax', 'foto', 'fl_nacimiento', 'genero', 'observaciones','crop_info'], 'safe'],
+            [['n_documento', 'nombre', 'nombre_persona', 'apellido_persona', 's_nombre', 'apellido', 's_apellido', 'email_personal', 'email_corporativo', 'telefono', 'telefono_2', 'celular', 'fax', 'foto', 'fl_nacimiento', 'genero', 'observaciones', 'crop_info'], 'safe'],
         ];
 
     }
@@ -40,8 +40,8 @@ class PersonasSEARCH extends Personas {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Personas::find();
-
+        $query = Personas::find()->from(Personas::tableName() . ' t');
+        $query->joinWith(['fkCargo']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -59,11 +59,12 @@ class PersonasSEARCH extends Personas {
         // grid filtering conditions
         $query->andFilterWhere([
             'id_persona' => $this->id_persona,
-            'fk_cargo' => $this->fk_cargo,
+//            'fk_cargo' => $this->fk_cargo,
             'fk_documento' => $this->fk_documento,
             'fl_nacimiento' => $this->fl_nacimiento,
             'status' => $this->status,
-              'crop_info' => $this->crop_info,
+            'crop_info' => $this->crop_info,
+            'fkCargo.cargo', $this->fk_cargo
         ]);
 
         $query->andFilterWhere(['like', 'n_documento', $this->n_documento])

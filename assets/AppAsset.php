@@ -32,7 +32,8 @@ class AppAsset extends AssetBundle {
     ];
     public $js = [
         'js/comun.js',
-        'js/google_maps.js'
+        'js/google_maps.js',
+        'js/fullscreen/jquery.fullscreen.js'        
     ];
     public $depends = [
         'yii\web\YiiAsset',

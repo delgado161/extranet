@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-heading">
             <?= Html::encode($this->title) ?>
             <?= Html::a(Yii::t('app', '<i class="icon-iconos_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-iconos_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+            <?= Html::a(Yii::t('app', '<i class="icon-iconos_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
             <?= Html::a(Yii::t('app', '<i class="fa fa-trash-o" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:red']) ?>
             <?= Html::a(Yii::t('app', '<i class="fa fa-filter" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_filter']) ?>
             <?= Html::a(Yii::t('app', '<i class="fa fa-plus" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                         'class' => 'yii\grid\CheckboxColumn',
-                        'contentOptions' => ['style' => 'width: 15px;text-align:center;','class' => '_chkbox'],
+                        'contentOptions' => ['style' => 'width: 15px;text-align:center;', 'class' => '_chkbox'],
                     ],
 //                    ['class' => 'yii\grid\SerialColumn'],
                     [
@@ -53,7 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
 //            'id_persona',
-                    'fk_cargo',
+//                    'fkCargo.cargo',
+                    [
+                        'attribute' => 'fk_cargo',
+                        'value' => function($dataProvider) {
+                            return $dataProvider->fkCargo->cargo;
+                        }
+                    ],
 //            'nombre',
 //            's_nombre',
 //            'apellido',
@@ -74,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'status',
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'width: 115px;'],
-                        'filter' => array( "1" => "Activo", "0" => "Inactivo"),
+                        'filter' => array("1" => "Activo", "0" => "Inactivo"),
                         'value' => function($dataProvider, $key) {
                     return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'));
                 }
@@ -111,8 +117,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
 
-                        <!--    <p>
-                            </p>-->
+                                <!--    <p>
+                                    </p>-->
 
             <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
 

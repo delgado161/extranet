@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\Session;
 
 class SiteController extends Controller {
 
@@ -30,6 +31,7 @@ class SiteController extends Controller {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+
                     'logout' => ['post'],
                 ],
             ],
@@ -59,7 +61,22 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        return $this->render('index');
+
+        if (isset($_POST['full'])) {
+            Yii::$app->session['full'] = $_POST['full'];
+        }
+
+//        echo Yii::$app->session['full'];
+//        exit();
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->render('index');
+        } else {
+            $this->redirect(\Yii::$app->urlManager->createUrl("site/login"));
+        }
+
+
+
 //        $this->redirect(\Yii::$app->urlManager->createUrl("site/login"));
 
     }

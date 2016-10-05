@@ -33,9 +33,15 @@
 }
 
 .bloque_hijos div:hover{
-/*    background: #5DB12E;
-    color: #0E4194;*/
+    /*background: #5DB12E;*/
+    color: #5DB12E;
 }
+.bloque_hijos div:hover > .guia2_{
+    /*background: #5DB12E;*/
+     border-bottom-color:  #5DB12E;
+}
+
+
 
 .bloque_hijos:hover{
     /*background: darkslategrey;*/
@@ -43,8 +49,8 @@
 }
 
 
-.bloque_hijos div>a{
-    color: white;
+.bloque_hijos:hover > .guia_{
+    border-right-color:  #5DB12E;
 }
 
 
@@ -78,5 +84,21 @@
 }
 
 
+.guia_{
+    float: left;
+    width: -15px;
+    /* background: rebeccapurple; */
+    margin-left: -27px;
+    border-right: 2px solid white;
+}
 
+.guia2_{
+    float: left;
+    padding: 0px;
+    margin-left: -22px;
+    width: 19px;
+    border-bottom: 2px solid white;
+    margin-top: 9px;
+    padding: 0px !important;
 
+}

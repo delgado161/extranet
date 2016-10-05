@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\web\Session;
 
 AppAsset::register($this);
 ?>
@@ -24,6 +25,8 @@ AppAsset::register($this);
         <?php $this->head() ?>
     </head>
     <body>
+
+
         <?php $this->beginBody() ?>
         <?php
 //            NavBar::begin([
@@ -59,6 +62,7 @@ AppAsset::register($this);
                 <?php echo $this->render('_vertical_menu', []) ?>
 
                 <div class="contenido">
+      <?= Html::a(Yii::t('app', '<i class="icon-iconos_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn btn_maximizar', 'style' => '']) ?>
 
                     <?php echo $content; ?>
 
@@ -79,7 +83,16 @@ AppAsset::register($this);
             <?php
             ;
             ?>
-
+                      
+            <?php
+           
+            if (Yii::$app->session['full'] == "1" && isset(Yii::$app->session['full'])) {
+//               echo "<script>fullwindows()</script>";
+                $this->registerJS("$(document).ready(function () { $('.btn_maximizar').trigger('click')});");
+            } else {
+                $this->registerJS("exit_fullwindows()");
+            }
+            ?>
             <?php $this->endBody() ?>
     </body>
 </html>

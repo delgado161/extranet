@@ -8,6 +8,9 @@ a:visited {
     color: none;
 }
 
+a:hover{
+     text-decoration: none;
+}
 
 .nav_derecho{
     float: left;
@@ -261,3 +264,14 @@ textarea {
 
 }
 
+.btn_accione{
+    text-align: right;
+}
+
+.btn_accione .btn{
+    /*margin-right: 10px;*/
+}
+
+.btn_accione i{
+    font-size: 20px;
+}

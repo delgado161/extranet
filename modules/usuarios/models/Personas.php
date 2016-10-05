@@ -49,6 +49,7 @@ class Personas extends \yii\db\ActiveRecord {
     public $crop_info;
     public $nombre_persona;
     public $apellido_persona;
+    
 
     public function setCrop_info($count) {
         $this->crop_info = $count;
