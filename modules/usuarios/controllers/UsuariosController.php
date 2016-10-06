@@ -109,6 +109,19 @@ class UsuariosController extends Controller {
         $model = $this->findModel($id);
         $model->validate_clave = $model->clave;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => Growl::TYPE_SUCCESS,
+                'title' => 'Modificado Correctamente',
+                'icon' => 'glyphicon glyphicon-ok-sign',
+                'body' => 'Usuario: ' . $model->username,
+                'delay' => 5000,
+                'pluginOptions' => [
+                    'placement' => [
+                        'from' => 'bottom',
+                        'align' => 'right',
+                    ]
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id_usuario]);
         } else {
             return $this->render('update', ['model' => $model,]);
