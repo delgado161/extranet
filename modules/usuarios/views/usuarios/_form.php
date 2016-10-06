@@ -12,7 +12,9 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="usuarios-form">
+<div class="usuarios-form" >
+
+    <?php $form = ActiveForm::begin([]); ?>
 
     <?php
     $listdata = ArrayHelper::map(Perfiles::findAll(['status' => '1']), 'id_perfile', 'nombre');
@@ -31,7 +33,7 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'clave')->passwordInput() ?>
     <?= $form->field($model, 'validate_clave')->passwordInput() ?>
 
-    <?php echo $form->field($model, 'clave')->textInput(['maxlength' => true]) ?>
+   
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

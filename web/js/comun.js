@@ -13,6 +13,7 @@ $(document).ready(function () {
 //});
 
 
+   
 
 
 
@@ -196,15 +197,15 @@ function fullwindows() {
 
 
 
-//    if (document.documentElement.requestFullscreen) {
-//        document.documentElement.requestFullscreen();
-//    } else if (document.documentElement.msRequestFullscreen) {
-//        document.documentElement.msRequestFullscreen();
-//    } else if (document.documentElement.mozRequestFullScreen) {
-//        document.documentElement.mozRequestFullScreen();
-//    } else if (document.documentElement.webkitRequestFullscreen) {
-//        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-//    }
+    if (document.body.requestFullscreen) {
+        document.body.requestFullscreen();
+    } else if (document.body.msRequestFullscreen) {
+        document.body.msRequestFullscreen();
+    } else if (document.body.mozRequestFullScreen) {
+        document.body.mozRequestFullScreen();
+    } else if (document.body.webkitRequestFullscreen) {
+        document.body.webkitRequestFullscreen();
+    }
 
 
 

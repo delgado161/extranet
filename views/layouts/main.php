@@ -62,7 +62,6 @@ AppAsset::register($this);
                 <?php echo $this->render('_vertical_menu', []) ?>
 
                 <div class="contenido">
-      <?= Html::a(Yii::t('app', '<i class="icon-iconos_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn btn_maximizar', 'style' => '']) ?>
 
                     <?php echo $content; ?>
 
@@ -88,9 +87,9 @@ AppAsset::register($this);
            
             if (Yii::$app->session['full'] == "1" && isset(Yii::$app->session['full'])) {
 //               echo "<script>fullwindows()</script>";
-                $this->registerJS("$(document).ready(function () { $('.btn_maximizar').trigger('click')});");
+//                $this->registerJS("$(document).ready(function () { $('.btn_maximizar').trigger('click')});");
             } else {
-                $this->registerJS("exit_fullwindows()");
+//                $this->registerJS("exit_fullwindows()");
             }
             ?>
             <?php $this->endBody() ?>

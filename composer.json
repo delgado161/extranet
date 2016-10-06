@@ -20,13 +20,9 @@
         "yiisoft/yii2-swiftmailer": "*",
         "bupy7/yii2-widget-cropbox": "*",
         "yiisoft/yii2-imagine": "~2.0.0",
-<<<<<<< HEAD
         "yiisoft/yii2-jui": "~2.0.0",
-        "budyaga/yii2-cropper": "*"
-=======
-        "yiisoft/yii2-jui": "~2.0.0"
-        
->>>>>>> 58c9ece86cc2bd8785259f292f74254b85ede0fe
+        "kartik-v/yii2-password": "@dev"
+
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
