@@ -27,6 +27,7 @@ AppAsset::register($this);
     <body>
 
 
+
         <?php $this->beginBody() ?>
         <?php
 //            NavBar::begin([
@@ -62,6 +63,44 @@ AppAsset::register($this);
                 <?php echo $this->render('_vertical_menu', []) ?>
 
                 <div class="contenido">
+                    <?php foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
+                        <?php
+                        
+//                          echo Growl::widget([
+//            'type' => Growl::TYPE_SUCCESS,
+//            'title' => 'Well done!',
+//            'icon' => 'glyphicon glyphicon-ok-sign',
+//            'body' => 'You successfully read this important alert message.',
+//            'showSeparator' => true,
+//            'delay' => 0,
+//            'pluginOptions' => [
+//                'showProgressbar' => true,
+//                'placement' => [
+//                    'from' => 'top',
+//                    'align' => 'right',
+//                ]
+//            ]
+//        ]);
+                        
+                        echo \kartik\widgets\Growl::widget([
+                            'type' => (!empty($message['type'])) ? $message['type'] : 'danger',
+                            'title' => (!empty($message['title'])) ? Html::encode($message['title']) : '',
+                            'icon' => (!empty($message['icon'])) ? $message['icon'] : 'fa fa-info',
+                            'body' => (!empty($message['body'])) ? Html::encode($message['body']) : '',
+                            'showSeparator' => true,
+                            'delay' => 1, //This delay is how long before the message shows
+                            'pluginOptions' => [
+                                'showProgressbar' => true,
+                                'delay' => (!empty($message['delay'])) ? $message['delay'] : 3000, //This delay is how long the message shows for
+                                'placement' => [
+                                    'from' => (!empty($message['pluginOptions']['placement']['from'])) ? $message['pluginOptions']['placement']['from'] : 'top',
+                                    'align' => (!empty($message['pluginOptions']['placement']['align'])) ? $message['pluginOptions']['placement']['align'] : 'right',
+                                ]
+                            ]
+                        ]);
+                        ?>
+                    <?php endforeach; ?>
+
 
                     <?php echo $content; ?>
 
@@ -82,9 +121,8 @@ AppAsset::register($this);
             <?php
             ;
             ?>
-                      
+
             <?php
-           
             if (Yii::$app->session['full'] == "1" && isset(Yii::$app->session['full'])) {
 //               echo "<script>fullwindows()</script>";
 //                $this->registerJS("$(document).ready(function () { $('.btn_maximizar').trigger('click')});");

@@ -80,7 +80,7 @@ class UsuariosSEARCH extends Usuarios {
             'fl_perfil' => $this->nombre_perfil,
             'fl_persona' => $this->fl_persona,
             'ultimo_login' => $this->ultimo_login,
-            'status' => $this->status,
+            't.status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])

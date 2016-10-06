@@ -1,6 +1,7 @@
+<?php use yii\helpers\Url;?>
 <div class="nav_varD">
     <div class="nav_logo">
-        <img src="img/IDS.png" alt="Smiley face" style="width: 100%;    margin-top: 10px;">
+        <img src="<?php echo Url::to(['/'], true) ?>/img/IDS.png" alt="Smiley face" style="width: 100%;    margin-top: 10px;">
     </div>
 
     <div style=" background: red;" class="nav_derecho">
@@ -24,7 +25,7 @@
 
             </div>
 
-            <div class="_img"><img src="uploads/personas/image/thumb_<?php echo Yii::$app->user->identity->id; ?>.jpg" alt="" class="img"></div>
+            <div class="_img"><img src="<?php echo Url::to(['/'], true) ?>/uploads/personas/image/thumb_<?php echo Yii::$app->user->identity->id; ?>.jpg" alt="" class="img"></div>
             <div class="menu_login">
 
                 <div><i class="fa fa-user" aria-hidden="true"></i> Mi Perfil</div>

@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\widgets\ActiveForm;
+use kartik\widgets\Growl;
 
 /**
  * UsuariosController implements the CRUD actions for Usuarios model.
@@ -63,14 +64,32 @@ class UsuariosController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
+
+
         $model = new Usuarios();
+        $model->setScenario('create');
 
 //        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
 //            Yii::$app->response->format='json';
 //            return ActiveForm::validate($model);
 //        }
-
+        $model->status = 1;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => Growl::TYPE_SUCCESS,
+                'title' => 'Creado Correctamente',
+                'icon' => 'glyphicon glyphicon-ok-sign',
+                'body' => 'Usuario' . $model->username,
+                'delay' => 5000,
+                'pluginOptions' => [
+                    'placement' => [
+                        'from' => 'bottom',
+                        'align' => 'right',
+                    ]
+                ]
+            ]);
+
+
             return $this->redirect(['view', 'id' => $model->id_usuario]);
         } else {
             return $this->render('create', [
@@ -88,13 +107,11 @@ class UsuariosController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-
+        $model->validate_clave = $model->clave;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_usuario]);
         } else {
-            return $this->render('update', [
-                        'model' => $model,
-            ]);
+            return $this->render('update', ['model' => $model,]);
         }
 
     }

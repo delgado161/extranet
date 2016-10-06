@@ -1,7 +1,8 @@
 var docElement, request;
-
+var pathname;
 $(document).ready(function () {
-
+    pathname = window.location.pathname; // Returns path only
+    //
 //    $('#loading').show();
     $(document).on('pjax:complete', function () {
 //        alert();
@@ -13,10 +14,6 @@ $(document).ready(function () {
 //});
 
 
-   
-
-
-
     $('.bloque_').click(function () {
         $(this).next('.bloque_hijos').toggle();
         $(this).next('.bloque_hijos').find('.guia_').css('height', $(this).next('.bloque_hijos').height() - 15);
@@ -26,11 +23,6 @@ $(document).ready(function () {
         } else {
             $(this).find('.fl_down').css('transform', 'rotate(0deg)');
         }
-
-
-
-
-
     });
 
 
@@ -101,13 +93,15 @@ $(document).ready(function () {
         initMap();
     });
 
-    vent_size();
-    vent_size();
-
 
     $("#prueba__").on("afterValidate", function (event, messages) {
         valida_tab();
     });
+
+
+    vent_size();
+    vent_size();
+    activate_menu();
 
 });
 
@@ -181,6 +175,25 @@ function print_checkbox2(id) {
 
 
     });
+}
+
+
+function activate_menu() {
+    $('.bloque_hijos div:not(.guia_,.guia2_)').each(function () {
+        url_ = $(this).attr('onclick').replace("'", " ").split("/web/");
+        url_2 = pathname.split("/web/");
+        url_[1] = url_[1].replace("'", " ");
+        url_3 = url_[1].split("/");
+
+        var regexp = url_3[0] + "/" + url_3[1];
+        if (url_2[1].replace("'", " ").match(regexp)) {
+            $(this).parents('.bloque_hijos').prev('.bloque_').trigger('click');
+            return;
+        }
+//        alert(regexp);
+//        alert(url_2[1].replace("'", " ").match(regexp));
+    });
+
 }
 
 function fullwindows() {

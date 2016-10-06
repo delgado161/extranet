@@ -41,9 +41,9 @@ $config = [
         ],
         'crop' => [
             'class' => 'yii\bupy7\Cropbox',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
+        // send all mails to a file by default. You have to set
+        // 'useFileTransport' to false and configure a transport
+        // for the mailer to send real emails.
 //            'useFileTransport' => true,
         ],
         'log' => [
@@ -56,6 +56,22 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'rules' => [
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+//                //Rules with Server Names
+//                'http://localhost/login' => 'admin/user/login',
+//                'http://localhost/login' => 'site/login',
+//                'http://<country:\w+>.localhost/profile' => 'user/view',
+//                '<controller:\w+>/<id:\d+>-<slug:[A-Za-z0-9 -_.]+>' => '<controller>/view',
+            ],
+        ],
     /*
       'urlManager' => [
       'enablePrettyUrl' => true,

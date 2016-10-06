@@ -3,6 +3,7 @@
 namespace app\modules\usuarios\models;
 
 use Yii;
+use kartik\password\StrengthValidator;
 
 /**
  * This is the model class for table "usuarios".
@@ -44,12 +45,13 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['fl_perfil', 'fl_persona', 'status'], 'integer'],
             [['ultimo_login'], 'safe'],
             [['clave'], 'string', 'max' => 200],
+            [['clave'], StrengthValidator::className(), 'preset' => 'normal', 'userAttribute' => 'username' ,'on'=>'create'],
             ['validate_clave', 'required'],
             ['validate_clave', 'compare', 'compareAttribute' => 'clave', 'message' => "Passwords don't match"],
             [['fl_perfil'], 'exist', 'skipOnError' => true, 'targetClass' => Perfiles::className(), 'targetAttribute' => ['fl_perfil' => 'id_perfile']],
             [['fl_persona'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['fl_persona' => 'id_persona']],
+            [['id_usuario', 'fl_persona','username'], 'unique'],
         ];
-
     }
 
     /**
