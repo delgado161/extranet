@@ -260,3 +260,26 @@ function toggleFullScreen() {
         }
     }
 }
+
+
+function onchange_pais(url_) {
+    $.post("" + url_ + "", {id: $('#pais_').val()}, function (data) {
+        $("#estados_").html(data);
+        $("#municipio_").html('<option>Seleccione...</option>');
+        $("#parroquia_").html('<option>Seleccione...</option>');
+    });
+}
+
+function onchange_estado(url_) {
+    $.post("" + url_ + "", {id: $('#estados_').val()}, function (data) {
+        $("#municipio_").html(data);
+        $("#parroquia_").html('<option>Seleccione...</option>');
+    });
+}
+
+
+function onchange_municipio(url_) {
+    $.post("" + url_ + "", {id: $('#municipio_').val()}, function (data) {
+        $("#parroquia_").html(data);
+    });
+}

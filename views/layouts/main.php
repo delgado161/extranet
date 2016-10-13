@@ -108,7 +108,7 @@ AppAsset::register($this);
 
             <?php } else {
                 ?>
-                <div class="wrap" style="   background: url('img/fondo_1.jpg') ; ">
+                <div class="wrap" style="   background: url('../img/fondo_1.jpg') ; ">
                     <div class = "container">
                         <div class = "row">
                             <div class = "col-lg-12">

@@ -67,22 +67,33 @@ class PersonasController extends Controller {
         $model = new Personas();
         $model_direcciones = new Direcciones();
 
-
-        if ($model->load(Yii::$app->request->post())) {
+        
+        
+        if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->status = 0;
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
             $model->foto = \yii\web\UploadedFile::getInstance($model, 'foto');
+            $model_direcciones->lat = floatval($model_direcciones->lat);
+            $model_direcciones->lng = floatval($model_direcciones->lng);
+            $model_direcciones->visibilidad = 1;
+
+
 //            $model->crop_info = $_POST['Personas']['crop_info'];
 //            var_dump($_POST);
 //            var_dump($model->crop_info);
 //            exit();
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id_persona]);
+                $model_direcciones->claveforeana = Yii::$app->db->getLastInsertID();
+                $model_direcciones->tabla_referen = $model->tableName();
+                if ($model_direcciones->save())
+                    return $this->redirect(['view', 'id' => $model->id_persona]);
+                else
+                    return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             } else {
-                return $this->render('create', ['model' => $model,'model_direcciones' => $model_direcciones,]);
+                return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             }
         } else {
-            return $this->render('create', ['model' => $model,'model_direcciones' => $model_direcciones,]);
+            return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
         }
 
     }
@@ -97,17 +108,21 @@ class PersonasController extends Controller {
         $model = $this->findModel($id);
         $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'd-m-Y');
 
+        if (Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one() !== null)
+            $model_direcciones = Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one();
+        else
+            $model_direcciones = new Direcciones();
+
         if ($model->load(Yii::$app->request->post())) {
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
             $model->foto = \yii\web\UploadedFile::getInstance($model, 'foto');
             if ($model->save()) {
-
                 return $this->redirect(['view', 'id' => $model->id_persona]);
             } else {
-                return $this->render('update', ['model' => $model,]);
+                return $this->render('update', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             }
         } else {
-            return $this->render('update', ['model' => $model,]);
+            return $this->render('update', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
         }
 
     }

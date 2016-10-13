@@ -235,8 +235,7 @@ class Personas extends \yii\db\ActiveRecord {
                 Yii::getAlias('uploads/personas/image')
                 . '/'
                 . $this->foto
-                . '.'
-                . $this->foto->getExtension()
+                
         );
 
     }

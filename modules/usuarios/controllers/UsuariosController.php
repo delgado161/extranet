@@ -129,6 +129,27 @@ class UsuariosController extends Controller {
 
     }
 
+    public function actionStatus($id) {
+        $model = $this->findModel($id);
+        $model->validate_clave = $model->clave;
+        if ($model->save()) {
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => Growl::TYPE_SUCCESS,
+                'title' => 'Modificado Correctamente',
+                'icon' => 'glyphicon glyphicon-ok-sign',
+                'body' => 'Usuario: ' . $model->username,
+                'delay' => 5000,
+                'pluginOptions' => [
+                    'placement' => [
+                        'from' => 'bottom',
+                        'align' => 'right',
+                    ]
+                ]
+            ]);
+        }
+
+    }
+
     /**
      * Deletes an existing Usuarios model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

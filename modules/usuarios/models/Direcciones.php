@@ -50,7 +50,7 @@ class Direcciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lp_direccion_id', 'tipovivienda', 'datovivienda', 'piso_numero', 'lf_direccion_ptoreferencia', 'referencia', 'codpostal', 'claveforeana', 'tabla_referen', 'lf_direccion_parroquia', 'visibilidad'], 'required'],
+            [[ 'tipovivienda', 'datovivienda', 'piso_numero', 'lf_direccion_ptoreferencia', 'referencia', 'codpostal', 'claveforeana', 'tabla_referen', 'lf_direccion_parroquia', 'visibilidad'], 'required'],
             [['lp_direccion_id','codpostal', 'visibilidad'], 'integer'],
             [[ 'lf_direccion_ptoreferencia', 'claveforeana', 'lf_direccion_parroquia'], 'string', 'max' => 5],
             [['t_urban_barr', 't_calle_av'], 'string', 'max' => 13],
@@ -58,7 +58,8 @@ class Direcciones extends \yii\db\ActiveRecord
             [['tipovivienda'], 'string', 'max' => 10],
             [['piso_numero'], 'string', 'max' => 15],
             [['oficin_apart'], 'string', 'max' => 20],
-            [['lp_direccion_id'], 'unique']
+            [['lp_direccion_id'], 'unique'],
+            [['lat', 'lng'], 'safe'],
         ];
     }
 

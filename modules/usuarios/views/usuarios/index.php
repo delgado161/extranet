@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\modules\usuarios\models\Perfiles;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\usuarios\models\UsuariosSEARCH */
@@ -73,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Html::activeDropDownList($searchModel, 'status', ["1" => "Activo", "0" => "Inactivo"], ['class' => 'form-control', 'prompt' => 'Seleccione...']),
 //                        'filter' => array("1" => "Activo", "0" => "Inactivo"),
                         'value' => function($dataProvider, $key) {
-                    return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'));
+                    return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'), null, Url::to(['/usuarios/personas', 'id' => $dataProvider->id_usuario], true));
                 }
                     ],
                     [

@@ -9,6 +9,8 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('app', 'Create Personas');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Personas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+var_dump($model->errors);
+var_dump($model_direcciones->errors);
 ?>
 
 
@@ -101,11 +103,11 @@ $this->params['breadcrumbs'][] = $this->title;
             });
         } else {
             map = new google.maps.Map(mapDiv, {
-                center: {lat: $('#direcciones-lat').val(), lng: $('#direcciones-lng').val()},
+                center: {lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())},
                 zoom: 8
             });
 
-
+            addMarker({lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())});
         }
 
 

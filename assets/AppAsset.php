@@ -34,6 +34,7 @@ class AppAsset extends AssetBundle {
     public $js = [
         'js/comun.js',
         'js/google_maps.js',
+        'js/flipSwitch.js',
         'js/fullscreen/jquery.fullscreen.js'        
     ];
     public $depends = [
