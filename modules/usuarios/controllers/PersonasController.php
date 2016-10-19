@@ -25,6 +25,7 @@ class PersonasController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'udpswitch' => ['POST'],
                 ],
             ],
         ];
@@ -67,8 +68,8 @@ class PersonasController extends Controller {
         $model = new Personas();
         $model_direcciones = new Direcciones();
 
-        
-        
+
+
         if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->status = 0;
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
@@ -85,6 +86,7 @@ class PersonasController extends Controller {
             if ($model->save()) {
                 $model_direcciones->claveforeana = Yii::$app->db->getLastInsertID();
                 $model_direcciones->tabla_referen = $model->tableName();
+                $model->img_new();
                 if ($model_direcciones->save())
                     return $this->redirect(['view', 'id' => $model->id_persona]);
                 else
@@ -108,16 +110,32 @@ class PersonasController extends Controller {
         $model = $this->findModel($id);
         $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'd-m-Y');
 
+
+
+
         if (Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one() !== null)
             $model_direcciones = Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one();
         else
             $model_direcciones = new Direcciones();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
             $model->foto = \yii\web\UploadedFile::getInstance($model, 'foto');
+            $model_direcciones->lat = floatval($model_direcciones->lat);
+            $model_direcciones->lng = floatval($model_direcciones->lng);
+
+            if (!Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one() !== null)
+                $model_direcciones->visibilidad = 1;
+
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id_persona]);
+                $model_direcciones->claveforeana = "".$model->id_persona;
+                $model_direcciones->tabla_referen = $model->tableName();
+                $model->img_new();
+
+                if ($model_direcciones->save())
+                    return $this->redirect(['view', 'id' => $model->id_persona]);
+                else
+                    return $this->render('update', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             } else {
                 return $this->render('update', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             }
@@ -134,9 +152,17 @@ class PersonasController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+//        $this->findModel($id)->delete();
+//
+//        return $this->redirect(['index']);
 
-        return $this->redirect(['index']);
+    }
+
+    public function actionUdpswitch($id) {
+        $model = $this->findModel($id);
+        $model->status = ($model->status == 0) ? 1 : 0;
+        $model->save();
+        return;
 
     }
 

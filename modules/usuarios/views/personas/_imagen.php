@@ -16,8 +16,11 @@ $confi_Cropbox = ['attributeCropInfo' => 'crop_info',
     ]
 ];
 
-if (!empty($model->id_persona)) {
-    $confi_Cropbox['previewUrl'] = Url::to(['/'], true) . '/uploads/personas/image/thumb_' . $model->id_persona . '.jpg';
+$ext_ = explode(".", $model->foto);
+
+if (!empty($model->id_persona) && !empty($model->foto)) {
+    $confi_Cropbox['previewUrl'] = Url::to(['/'], true) . '/uploads/personas/image/thumb_' . $model->id_persona . '.' . $ext_[1];
+    $confi_Cropbox['originalUrl'] = Url::to(['/'], true) . '/uploads/personas/image/' . $model->foto;
 }
 ?>
 

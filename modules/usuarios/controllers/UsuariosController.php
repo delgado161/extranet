@@ -26,6 +26,7 @@ class UsuariosController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'udpswitch' => ['POST'],
                 ],
             ],
         ];
@@ -156,10 +157,20 @@ class UsuariosController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+//    public function actionDelete($id) {
+//        $this->findModel($id)->delete();
+//
+//        return $this->redirect(['index']);
+//
+//    }
+    
+     public function actionUdpswitch($id) {
+        $model = $this->findModel($id);
+        $model->status = ($model->status == 0) ? 1 : 0;
+        $model->save();
+        var_dump($model->errors);
+        
+        return;
 
     }
 

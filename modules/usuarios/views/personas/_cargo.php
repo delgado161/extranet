@@ -12,7 +12,7 @@ use \app\modules\usuarios\models\Cargos;
         echo $form->field($model, 'fk_cargo')->dropDownList($listdata, ['prompt' => 'Seleccione...', 'id' => 'dropdown_fk_cargo']);
         ?>
 
-       <?= $form->field($model, 'observaciones')->textArea(['rows' => '8']) ?>
+       <?= $form->field($model, 'observaciones')->textArea(['rows' => '8','onkeypress'=>'return soloLetras(event)']) ?>
 
 
     </div>

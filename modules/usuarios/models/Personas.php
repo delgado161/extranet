@@ -49,7 +49,6 @@ class Personas extends \yii\db\ActiveRecord {
     public $crop_info;
     public $nombre_persona;
     public $apellido_persona;
-    
 
     public function setCrop_info($count) {
         $this->crop_info = $count;
@@ -74,7 +73,8 @@ class Personas extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['fk_cargo', 'fk_documento', 'n_documento', 'nombre', 'apellido', 'email_personal', 'email_corporativo', 'telefono', 'celular', 'fl_nacimiento', 'genero',], 'required'],
+            [['fk_cargo', 'fk_documento', 'n_documento', 'nombre', 'apellido', 'email_personal', 'email_corporativo', 'telefono', 'celular', 'fl_nacimiento', 'genero',], 'required',
+                'on' => 'create'],
             [['fk_cargo', 'fk_documento', 'status', 'n_documento'], 'integer'],
             [['fl_nacimiento', 'crop_info'], 'safe'],
             [['observaciones', 'crop_info'], 'string'],
@@ -187,8 +187,9 @@ class Personas extends \yii\db\ActiveRecord {
 
     }
 
-    public function afterSave($insert, $changedAttributes) {
+//    public function afterSave($insert, $changedAttributes) {
 
+    public function img_new() {
 
         // open image
         $image = Image::getImagine()->open($this->foto->tempName);
@@ -235,7 +236,6 @@ class Personas extends \yii\db\ActiveRecord {
                 Yii::getAlias('uploads/personas/image')
                 . '/'
                 . $this->foto
-                
         );
 
     }

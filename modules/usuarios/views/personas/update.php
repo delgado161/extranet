@@ -12,6 +12,9 @@ $this->title = Yii::t('app', 'Update {modelClass}: ', [
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Personas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_persona, 'url' => ['view', 'id' => $model->id_persona]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+
+//var_dump($model->errors);
+//var_dump($model_direcciones->errors);
 ?>
 
 
@@ -74,7 +77,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn_accione" >
                 <div class="form-group">
                     <br>
-                    <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-floppy-o" aria-hidden="true"></i>' : Yii::t('app', 'Update'), ['style' => 'display:none;', 'id' => 'submit_btn', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    <?= Html::submitButton( '<i class="fa fa-floppy-o" aria-hidden="true"></i>', ['style' => 'display:none;', 'id' => 'submit_btn', 'class' =>  'btn btn-primary']) ?>
                     <?= Html::a('<i class="fa fa-ban" aria-hidden="true"></i>', ['/controller/action'], ['class' => 'btn btn-danger']) ?>
                 </div>
             </div>

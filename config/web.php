@@ -13,6 +13,9 @@ $config = [
         'configuraciones' => [
             'class' => 'app\modules\configuraciones\Module',
         ],
+        'clientes' => [
+            'class' => 'app\modules\clientes\Module',
+        ],
     ],
     'components' => [
         'Toolbox' => [

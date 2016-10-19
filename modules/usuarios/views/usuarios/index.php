@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::encode($this->title) ?>
             <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
             <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-            <?= Html::a(Yii::t('app', '<i class="fa fa-trash-o" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:red']) ?>
+            <?php // echo  Html::a(Yii::t('app', '<i class="fa fa-trash-o" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:red']) ?>
             <?= Html::a(Yii::t('app', '<i class="fa fa-filter" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_filter']) ?>
             <?= Html::a(Yii::t('app', '<i class="fa fa-plus" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
             <?= Html::a(Yii::t('app', '<i class="icon-joker_documento" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
@@ -40,6 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'pager' => [
+                    'firstPageLabel' => 'Primera',
+                    'lastPageLabel' => 'Ultima'
+                ],
                 'columns' => [
                     [
                         'attribute' => 'nombre_perfil',
@@ -74,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Html::activeDropDownList($searchModel, 'status', ["1" => "Activo", "0" => "Inactivo"], ['class' => 'form-control', 'prompt' => 'Seleccione...']),
 //                        'filter' => array("1" => "Activo", "0" => "Inactivo"),
                         'value' => function($dataProvider, $key) {
-                    return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'), null, Url::to(['/usuarios/personas', 'id' => $dataProvider->id_usuario], true));
+                    return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'), null, Url::to(['/usuarios/usuarios/udpswitch', 'id' => $dataProvider->id_usuario], true));
                 }
                     ],
                     [
@@ -90,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return Html::a('<i class = "fa icon-joker_edictar" aria-hidden = "true" style="font-size:20px;"></i>', $url, ['class' => 'btn btn-warning btn-xs']);
                             },
                                     'delete' => function ($url, $model, $key) {
-                                return Html::a('<i class="fa fa-times-circle" aria-hidden="true" style="font-size:20px;">', $url, ['class' => 'btn btn-danger btn-xs']);
+//                                return Html::a('<i class="fa fa-times-circle" aria-hidden="true" style="font-size:20px;">', $url, ['class' => 'btn btn-danger btn-xs']);
                             },
                                 ],]
                         ],

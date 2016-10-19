@@ -19,12 +19,9 @@ use yii\jui\DatePicker;
     $listdata = ArrayHelper::map(TipoDocumento::find()->all(), 'id_tipo_documento', 'nombre');
     echo $form->field($model, 'fk_documento')->dropDownList($listdata, ['prompt' => '', 'id' => 'user_dropdown2']);
     ?>
-
-
 </div>
 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 <?= $form->field($model, 'n_documento')->textInput(['maxlength' => true]) ?>
-
 </div>
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding: 0px;">

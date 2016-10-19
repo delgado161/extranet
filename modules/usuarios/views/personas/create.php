@@ -9,8 +9,8 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('app', 'Create Personas');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Personas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-var_dump($model->errors);
-var_dump($model_direcciones->errors);
+//var_dump($model->errors);
+//var_dump($model_direcciones->errors);
 ?>
 
 
@@ -30,7 +30,8 @@ var_dump($model_direcciones->errors);
 
             <?php
             $form = ActiveForm::begin([
-                        'options' => [ 'id' => 'prueba__',
+                        'options' => [ 'id' => $model->tableName() . "_form",
+                            'class'=>'tab_validate',
                             'enctype' => 'multipart/form-data'],
             ]);
             ?>
@@ -39,10 +40,10 @@ var_dump($model_direcciones->errors);
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                     <div class="list-group">
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
-                            <i class="fa fa-street-view fa-2x" aria-hidden="true"></i><br/>Usuario
+                            <i class="fa fa-street-view fa-2x" aria-hidden="true"></i><br/>Persona
                         </div>
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
-                            <i class="fa fa-map-marker fa-2x" aria-hidden="true"></i><br/>Dirección
+                            <i class="icon-joker_bocado fa-2x" aria-hidden="true"></i><br/>Dirección
                         </div>
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').show();">
                             <i class="fa fa-picture-o fa-2x" aria-hidden="true"></i><br/>Foto
@@ -75,7 +76,7 @@ var_dump($model_direcciones->errors);
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn_accione" >
                 <div class="form-group">
                     <br>
-                    <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-floppy-o" aria-hidden="true"></i>' : Yii::t('app', 'Update'), ['style' => 'display:none;', 'id' => 'submit_btn', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    <?= Html::submitButton( '<i class="fa fa-floppy-o" aria-hidden="true"></i>' , ['style' => 'display:none;', 'id' => 'submit_btn', 'class' => 'btn btn-primary']) ?>
                     <?= Html::a('<i class="fa fa-ban" aria-hidden="true"></i>', ['/controller/action'], ['class' => 'btn btn-danger']) ?>
                 </div>
             </div>
@@ -89,7 +90,6 @@ var_dump($model_direcciones->errors);
 
 
 <script>
-
     var map;
     var mapDiv = document.getElementById('map');
     var myLatlng = {lat: -25.363, lng: 131.044};
@@ -110,10 +110,6 @@ var_dump($model_direcciones->errors);
             addMarker({lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())});
         }
 
-
-
-
-
         map.addListener('click', function (event) {
             $('#direcciones-lat').val(event.latLng.lat());
             $('#direcciones-lng').val(event.latLng.lng());
@@ -125,6 +121,8 @@ var_dump($model_direcciones->errors);
     }
 
 </script>
+
+
 
 
 

@@ -5,46 +5,59 @@ $(document).ready(function () {
     //
 //    $('#loading').show();
     $(document).on('pjax:complete', function () {
-//        alert();
+
         $('.filters').toggle();
+        $('.onoffswitch-label').click(function () {
+            btn_activar_desactivar($(this).parent('.onoffswitch').find('.src_flip').attr('id'));
+        });
+    });
+    $('.onoffswitch-label').click(function () {
+        btn_activar_desactivar($(this).parent('.onoffswitch').find('.src_flip').attr('id'));
     });
 
-//$(document).on('pjax:send', function() {
-//  $('#loading').show();
-//});
+
+    $('.List_').change(function () {
+        if ($(this).val() != "")
+            $(this).parents('.select2-bootstrap-append').find('.add_select').show();
+        else
+            $(this).parents('.select2-bootstrap-append').find('.add_select').hide();
+    });
+
+    $('.add_select').click(function () {
+        $(this).hide();
+        id_seelct = $(this).parents('.select2-bootstrap-append').find('select').attr('id');
+        add_Select(id_seelct, $('#' + id_seelct + " option:selected").text(), $('#' + id_seelct).val());
+        $("#" + id_seelct + " option[value='" + $('#' + id_seelct).val() + "']").remove();
+    });
+
+
+
+
+
+
 
 
     $('.bloque_').click(function () {
         $(this).next('.bloque_hijos').toggle();
         $(this).next('.bloque_hijos').find('.guia_').css('height', $(this).next('.bloque_hijos').height() - 15);
-
         if ($(this).next('.bloque_hijos').is(':visible')) {
             $(this).find('.fl_down').css('transform', 'rotate(180deg)');
         } else {
             $(this).find('.fl_down').css('transform', 'rotate(0deg)');
         }
     });
-
-
-
-
     $('.btn_menu_h').click(function () {
         $('.menu_login').toggle();
     });
-
     $('.contenido').click(function () {
         $('.menu_login').hide();
     });
-
     $('.btn-success').click(function () {
         vent_size();
     });
-
-
     $('.btn_maximizar').click(function () {
         fullwindows();
     });
-
 
 
 
@@ -56,34 +69,22 @@ $(document).ready(function () {
         $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
         $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
     });
-
-
     $('.btn_filter').click(function () {
         $('.filters').toggle();
     });
-
     $('._chkbox').click(function () {
         print_checkbox();
     });
-
-
     $(window).resize(function () {
         vent_size();
     });
 
-
-
-
     $('.tab_new').click(function () {
-
+       
         $('.bhoechie-tab-content').hide();
         $('.bhoechie-tab-content:nth-child(' + ($(this).index() + 1) + ')').show();
-
-
         $('.tab_new').css('color', '#333');
         $(this).css('color', '#5DB12E');
-
-
         if ($('.tab_new').size() == ($(this).index() + 1)) {
             $('#submit_btn').show();
         } else {
@@ -94,19 +95,15 @@ $(document).ready(function () {
     });
 
 
-    $("#prueba__").on("afterValidate", function (event, messages) {
+    $(".tab_validate ").on("afterValidate", function (event, messages) {
         valida_tab();
     });
-
-
+    
+    
     vent_size();
     vent_size();
     activate_menu();
-
 });
-
-
-
 function valida_tab() {
     $('.bhoechie-tab-content').each(function () {
         stop_ = 0;
@@ -119,14 +116,10 @@ function valida_tab() {
         });
         if (stop_ == 1) {
             $('.tab_new:nth-child(' + ($(this).index() + 1) + ')').css('color', 'red').trigger('click');
-
             return false;
         }
 
     });
-
-
-
 }
 
 
@@ -165,7 +158,6 @@ function vent_size() {
 
 function print_checkbox() {
     var keys = $('#w0').yiiGridView('getSelectedRows');
-
 }
 
 function print_checkbox2(id) {
@@ -184,7 +176,6 @@ function activate_menu() {
         url_2 = pathname.split("/web/");
         url_[1] = url_[1].replace("'", " ");
         url_3 = url_[1].split("/");
-
         var regexp = url_3[0] + "/" + url_3[1];
         if (url_2[1].replace("'", " ").match(regexp)) {
             $(this).parents('.bloque_hijos').prev('.bloque_').trigger('click');
@@ -193,8 +184,18 @@ function activate_menu() {
 //        alert(regexp);
 //        alert(url_2[1].replace("'", " ").match(regexp));
     });
-
 }
+
+
+function btn_activar_desactivar(url) {
+
+    $.ajax({url: url,
+        type: 'post',
+        success: function (result) {
+
+        }});
+}
+
 
 function fullwindows() {
 //    alert();
@@ -207,9 +208,6 @@ function fullwindows() {
         success: function (result) {
 //alert(result);
         }});
-
-
-
     if (document.body.requestFullscreen) {
         document.body.requestFullscreen();
     } else if (document.body.msRequestFullscreen) {
@@ -283,3 +281,55 @@ function onchange_municipio(url_) {
         $("#parroquia_").html(data);
     });
 }
+
+function soloLetras(e) {
+    alert(e.keyCode);
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxy";
+    especiales = [8, 37, 39, 46, 44];
+    tecla_especial = false
+    for (var i in especiales) {
+        if (key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+        return false;
+    }
+}
+
+
+function add_Select(div, text, id) {
+    $('#' + div + "_select .SN_LISTA").hide();
+    $('#' + div + "_select")
+            .append('<div class="form-group field-clientes-fk_presona_ref has-success"><div class=""><div class="input-group"><input readonly id="' + id + '" value="' + text + '" type="text" class="form-control" name="' + div + '[' + id + ']' + '"><span class="input-group-btn"><button type="button" class="btn btn-danger list_delete" id="btn_lst' + id + '" onclick="delete_list(this.id,\'' + div + '_select\')"><i class="fa fa-trash-o" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>');
+
+
+}
+
+
+function delete_list(id, div) {
+
+    var div_ = div.split("_select");
+
+    $('#' + div_[0]).append($('<option>', {
+        value: $('#' + id).parents('.form-group').find('input').attr('id'),
+        text: $('#' + id).parents('.form-group').find('input').val()
+    }));
+
+    $('#' + id).parents('.form-group').remove();
+
+
+    if ($("#" + div + ' .form-group').size() < 1)
+        $('#' + div + " .SN_LISTA").show();
+
+
+
+
+}
+
+
+
+    
