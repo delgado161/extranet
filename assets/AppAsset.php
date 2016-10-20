@@ -28,7 +28,8 @@ class AppAsset extends AssetBundle {
         'css/font-awesome/css/font-awesome.css',
         'css/font-awesome/css/font-awesome.min.css',
         'css/style_yoker.css',
-        'css/panel.css'
+        'css/panel.css',
+        'css/modal.css'
         
     ];
     public $js = [

@@ -9,6 +9,7 @@ use app\modules\configuraciones\models\Municipios;
 use app\modules\configuraciones\models\Estados;
 use app\modules\configuraciones\models\Paises;
 use app\modules\configuraciones\models\Parroquias;
+use kartik\widgets\Growl;
 
 class Toolbox extends Component {
 
@@ -39,7 +40,26 @@ class Toolbox extends Component {
 
     }
 
-  
+    public function verificar_modal($parametros = array()) {
+        if (isset($_GET['modal']) || Yii::$app->session->get('modal')) {
+            Yii::$app->session->set('modal', true);
+            $parametros['modal'] = 1;
+        }
+
+        return $parametros;
+
+    }
+
+    public function MSJ_SUCCESS($title = null, $body = null,$pos=array()) {
+
+        Yii::$app->getSession()->setFlash('success', [
+            'type' => Growl::TYPE_SUCCESS,
+            'title' => $title,
+            'icon' => 'glyphicon glyphicon-ok-sign',
+            'body' => $body,
+            'delay' => 5000, 'pluginOptions' => ['placement' => ['from' => $pos[0], 'align' =>  $pos[1],]]]);
+
+    }
 
 }
 

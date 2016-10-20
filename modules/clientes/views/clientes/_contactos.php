@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\modules\clientes\models\Clientes;
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">  
@@ -24,7 +25,9 @@ use yii\helpers\Html;
         ],
         'addon' => [
             'append' => [
-                'content' => Html::button('<i class="fa fa-check" aria-hidden="true"></i>', ['class' => 'btn btn-primary add_select', 'style' => 'display:none']) . Html::button('<i class="fa fa-plus" aria-hidden="true"></i>', ['class' => 'btn btn-success']),
+                'content' =>
+                Html::button('<i class="fa fa-check" aria-hidden="true"></i>', ['class' => 'btn btn-primary add_select', 'style' => 'display:none']) .
+                Html::button('<i class="fa fa-plus" aria-hidden="true"></i>', ['class' => 'btn btn-success btn_modal', 'data-toggle' => "modal", 'data-target' => "#myModal", 'onclick' => 'src_frame(\'' . Url::to(['/usuarios/personas/create?modal=1'], true) . '\')']),
                 'asButton' => true
             ]
         ]

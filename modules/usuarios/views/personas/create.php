@@ -15,23 +15,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-<div class="personas-create panel_up"  >
+<?php if (!Yii::$app->session->get('modal')) { ?>
+    <div class="personas-create panel_up"  >
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?= Html::encode($this->title) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <?= Html::encode($this->title) ?>
+                <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+                <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
 
-        </div>
-        <div class="panel-body">
+            </div>
+            <div class="panel-body">
 
+            <?php } ?>
 
 
             <?php
             $form = ActiveForm::begin([
                         'options' => [ 'id' => $model->tableName() . "_form",
-                            'class'=>'tab_validate',
+                            'class' => 'tab_validate',
                             'enctype' => 'multipart/form-data'],
             ]);
             ?>
@@ -39,16 +41,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-12 bhoechie-tab-container bhoechie-tab-container">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                     <div class="list-group">
-                        <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
+                        <div class="list-group-item text-center tab_new" onclick="">
                             <i class="fa fa-street-view fa-2x" aria-hidden="true"></i><br/>Persona
                         </div>
-                        <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
+                        <div class="list-group-item text-center tab_new" onclick="">
                             <i class="icon-joker_bocado fa-2x" aria-hidden="true"></i><br/>Dirección
                         </div>
-                        <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').show();">
+                        <div class="list-group-item text-center tab_new" onclick="">
                             <i class="fa fa-picture-o fa-2x" aria-hidden="true"></i><br/>Foto
                         </div>
-                        <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').show();">
+                        <div class="list-group-item text-center tab_new" onclick="">
                             <i class="fa fa-building-o fa-2x" aria-hidden="true"></i><br/>Trabajo
                         </div>
 
@@ -76,16 +78,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn_accione" >
                 <div class="form-group">
                     <br>
-                    <?= Html::submitButton( '<i class="fa fa-floppy-o" aria-hidden="true"></i>' , ['style' => 'display:none;', 'id' => 'submit_btn', 'class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('<i class="fa fa-floppy-o" aria-hidden="true"></i>', ['style' => 'display:none;', 'id' => 'submit_btn', 'class' => 'btn btn-primary']) ?>
                     <?= Html::a('<i class="fa fa-ban" aria-hidden="true"></i>', ['/controller/action'], ['class' => 'btn btn-danger']) ?>
                 </div>
             </div>
             <?php ActiveForm::end(); ?>
-
+            <?php if (!Yii::$app->session->get('modal')) { ?>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
+<?php } ?>
 
 
 

@@ -65,38 +65,15 @@ class UsuariosController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-
-
         $model = new Usuarios();
         $model->setScenario('create');
 
-//        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-//            Yii::$app->response->format='json';
-//            return ActiveForm::validate($model);
-//        }
         $model->status = 1;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', [
-                'type' => Growl::TYPE_SUCCESS,
-                'title' => 'Creado Correctamente',
-                'icon' => 'glyphicon glyphicon-ok-sign',
-                'body' => 'Usuario' . $model->username,
-                'delay' => 5000,
-                'pluginOptions' => [
-                    'placement' => [
-                        'from' => 'bottom',
-                        'align' => 'right',
-                    ]
-                ]
-            ]);
-
-
+            Yii::$app->Toolbox->MSJ_SUCCESS('Creado Correctamente', 'Usuario' . $model->username,['bottom','right']);
             return $this->redirect(['view', 'id' => $model->id_usuario]);
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        }
+        } else
+            return $this->render('create', ['model' => $model,]);
 
     }
 
@@ -163,13 +140,13 @@ class UsuariosController extends Controller {
 //        return $this->redirect(['index']);
 //
 //    }
-    
-     public function actionUdpswitch($id) {
+
+    public function actionUdpswitch($id) {
         $model = $this->findModel($id);
         $model->status = ($model->status == 0) ? 1 : 0;
         $model->save();
         var_dump($model->errors);
-        
+
         return;
 
     }

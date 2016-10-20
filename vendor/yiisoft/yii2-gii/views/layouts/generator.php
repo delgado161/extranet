@@ -28,3 +28,6 @@ $activeGenerator = Yii::$app->controller->generator;
     </div>
 </div>
 <?php $this->endContent(); ?>
+
+
+

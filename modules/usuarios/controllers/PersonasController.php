@@ -16,6 +16,8 @@ use app\modules\usuarios\models\Direcciones;
  */
 class PersonasController extends Controller {
 
+    public $_modal = '';
+
     /**
      * @inheritdoc
      */
@@ -65,10 +67,11 @@ class PersonasController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
+//        $this->_modal = Yii::$app->Toolbox->verificar_modal();
+
         $model = new Personas();
+        $model->setScenario('create');
         $model_direcciones = new Direcciones();
-
-
 
         if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->status = 0;
@@ -78,18 +81,14 @@ class PersonasController extends Controller {
             $model_direcciones->lng = floatval($model_direcciones->lng);
             $model_direcciones->visibilidad = 1;
 
-
-//            $model->crop_info = $_POST['Personas']['crop_info'];
-//            var_dump($_POST);
-//            var_dump($model->crop_info);
-//            exit();
             if ($model->save()) {
                 $model_direcciones->claveforeana = Yii::$app->db->getLastInsertID();
                 $model_direcciones->tabla_referen = $model->tableName();
                 $model->img_new();
-                if ($model_direcciones->save())
-                    return $this->redirect(['view', 'id' => $model->id_persona]);
-                else
+                if ($model_direcciones->save()) {
+                    Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Persona: ' . $model->nombre . " " . $model->s_nombre . " " . $model->apellido . " " . $model->s_apellido,['bottom','right']);
+                    return $this->redirect(Yii::$app->Toolbox->verificar_modal(['view', 'id' => $model->id_persona]));
+                } else
                     return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
             } else {
                 return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
@@ -128,7 +127,7 @@ class PersonasController extends Controller {
                 $model_direcciones->visibilidad = 1;
 
             if ($model->save()) {
-                $model_direcciones->claveforeana = "".$model->id_persona;
+                $model_direcciones->claveforeana = "" . $model->id_persona;
                 $model_direcciones->tabla_referen = $model->tableName();
                 $model->img_new();
 
