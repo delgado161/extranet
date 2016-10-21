@@ -9,8 +9,8 @@
 .bloque_{
     padding: 5px;
     color:white;
-    background: #0E4194;
-    border-bottom: 1px solid white;
+    /*background: #0E4194;*/
+    /*border-bottom: 1px solid white;*/
     cursor: pointer;
 }
 
@@ -19,8 +19,9 @@
     display: none;
     /*margin-left: 20px;*/
     color:white;
-    border-bottom: 1px solid white; 
-     cursor: pointer;
+    /*    border-bottom: 1px solid white; */
+    cursor: pointer;
+    background: #32373C;
 }
 
 .bloque_ i{
@@ -35,12 +36,12 @@
 }
 
 .bloque_hijos div:hover{
-    /*background: #5DB12E;*/
-    color: #5DB12E;
+    /*background: #008CD2;*/
+    color: #008CD2;
 }
 .bloque_hijos div:hover > .guia2_{
-    /*background: #5DB12E;*/
-    border-bottom-color:  #5DB12E;
+    /*background: #008CD2;*/
+    border-bottom-color:  #008CD2;
 }
 
 
@@ -52,7 +53,7 @@
 
 
 .bloque_hijos:hover > .guia_{
-    border-right-color:  #5DB12E;
+    border-right-color:  #008CD2;
 }
 
 
@@ -66,7 +67,7 @@
 
 .btn_vert_{
     padding: 0;
-    background: black;
+    background: rgba(0, 0, 0, 0.9);
     /*    margin-right: 5px;*/
     width: 30px;
     height: 30px;
@@ -81,7 +82,7 @@
 
 
 .bloque_:hover , .bloque_ button:hover{
-    color:#63B22E !important;
+    color:#008CD2!important;
 
 }
 

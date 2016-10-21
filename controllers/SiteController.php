@@ -32,7 +32,7 @@ class SiteController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
 
-                    'logout' => ['post'],
+                    'logout' => ['post','get'],
                 ],
             ],
         ];

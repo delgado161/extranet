@@ -55,9 +55,12 @@ class PersonasController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        return $this->render('view', [
-                    'model' => $this->findModel($id),
-        ]);
+        Yii::$app->Toolbox->verificar_modal();
+
+//        $model= $this->findModel($id);
+//        Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Persona: ' . $model->nombre . " " . $model->s_nombre . " " . $model->apellido . " " . $model->s_apellido,['bottom','right']);
+//                   
+        return $this->render('view', ['model' => $this->findModel($id),]);
 
     }
 
@@ -67,7 +70,7 @@ class PersonasController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-//        $this->_modal = Yii::$app->Toolbox->verificar_modal();
+        Yii::$app->Toolbox->verificar_modal();
 
         $model = new Personas();
         $model->setScenario('create');
@@ -86,7 +89,7 @@ class PersonasController extends Controller {
                 $model_direcciones->tabla_referen = $model->tableName();
                 $model->img_new();
                 if ($model_direcciones->save()) {
-                    Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Persona: ' . $model->nombre . " " . $model->s_nombre . " " . $model->apellido . " " . $model->s_apellido,['bottom','right']);
+                    Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Persona: ' . $model->nombre . " " . $model->s_nombre . " " . $model->apellido . " " . $model->s_apellido, ['bottom', 'right']);
                     return $this->redirect(Yii::$app->Toolbox->verificar_modal(['view', 'id' => $model->id_persona]));
                 } else
                     return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);

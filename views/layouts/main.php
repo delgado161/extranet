@@ -20,7 +20,7 @@ AppAsset::register($this);
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= Html::csrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?></title>
+        <title>EXTRANET</title>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGFvxoh7UVAHGmSLTeXs-J9uWGUy2Tutc"></script>
         <!--        <link rel="stylesheet" href="https://use.fontawesome.com/c92e0cec2a.css">-->
         <?php $this->head() ?>
@@ -31,8 +31,6 @@ AppAsset::register($this);
 
         if (isset($_GET['modal']) || Yii::$app->session->get('modal'))
             Yii::$app->session->set('modal', true);
-        
-        
         ?>
         <?php $this->beginBody()
         ?>
@@ -71,7 +69,7 @@ AppAsset::register($this);
                             ?>
                         <?php endforeach; ?>
                         <?php echo $content; ?>
-
+                        <input type="hidden" name="act_modal" id="act_modal">
                     </div>
                 <?php } else {
                     ?>
@@ -94,6 +92,10 @@ AppAsset::register($this);
                 } else {
 //                $this->registerJS("exit_fullwindows()");
                 }
+
+
+
+                
                 ?>
 
                 <?php if (!Yii::$app->session->get('modal')) { ?>

@@ -50,14 +50,50 @@ class Toolbox extends Component {
 
     }
 
-    public function MSJ_SUCCESS($title = null, $body = null,$pos=array()) {
+    public function MSJ_SUCCESS($title = null, $body = null, $pos = array()) {
+
+        if (isset($_GET['modal']) || Yii::$app->session->get('modal')) {
+            $pos[0] = 'top';
+            $pos[1] = 'center';
+        }
+
 
         Yii::$app->getSession()->setFlash('success', [
             'type' => Growl::TYPE_SUCCESS,
             'title' => $title,
             'icon' => 'glyphicon glyphicon-ok-sign',
             'body' => $body,
-            'delay' => 5000, 'pluginOptions' => ['placement' => ['from' => $pos[0], 'align' =>  $pos[1],]]]);
+            'delay' => 5000, 'pluginOptions' => ['placement' => ['from' => $pos[0], 'align' => $pos[1],]]]);
+
+    }
+
+    public function Parametros_password() {
+        return [
+            'pluginOptions' => [
+                'showMeter' => true,
+                'toggleMask' => false,
+                'language' => 'es',
+                'verdictTitles' => [
+                    0 => 'Ninguna',
+                    1 => 'Muy pobre',
+                    2 => 'Pobre',
+                    3 => 'Justo',
+                    4 => 'Buena',
+                    5 => 'Excelente',
+                ],
+                'verdictClasses' => [
+                    0 => 'text-muted',
+                    1 => 'text-danger',
+                    2 => 'text-warning',
+                    3 => 'text-info',
+                    4 => 'text-primary',
+                    5 => 'text-success'
+                ],
+            ]
+                ]
+
+
+        ;
 
     }
 

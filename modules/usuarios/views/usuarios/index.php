@@ -18,12 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel panel-default">
         <div class="panel-heading">
             <?= Html::encode($this->title) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+            <?php Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+            <?php Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
             <?php // echo  Html::a(Yii::t('app', '<i class="fa fa-trash-o" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:red']) ?>
-            <?= Html::a(Yii::t('app', '<i class="fa fa-filter" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_filter']) ?>
-            <?= Html::a(Yii::t('app', '<i class="fa fa-plus" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_documento" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
+            <?= Html::a(Yii::t('app', '<i class="fa fa-filter" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_filter', 'style' => 'color:darkturquoise']) ?>
+            <?= Html::a(Yii::t('app', '<i class="fa fa-plus" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:limegreen']) ?>
+            <?php // Html::a(Yii::t('app', '<i class="icon-joker_documento" aria-hidden="true"></i>'), ['create'], ['class' => 'btn_crear', 'style' => 'color:#58B02F']) ?>
 
 
         </div>
@@ -45,11 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'lastPageLabel' => 'Ultima'
                 ],
                 'columns' => [
-                    [
-                        'attribute' => 'nombre_perfil',
-                        'value' => 'flPerfil.nombre',
-                        'filter' => Html::activeDropDownList($searchModel, 'nombre_perfil', ArrayHelper::map(Perfiles::find()->asArray()->all(), 'id_perfile', 'nombre'), ['class' => 'form-control', 'prompt' => 'Seleccione...']),
-                    ],
+
                     [
                         'attribute' => 'nombre_persona',
                         'value' => function($dataProvider) {
@@ -62,21 +58,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $dataProvider->flPersona->apellido . " " . $dataProvider->flPersona->s_apellido;
                         }
                     ],
-//            ['class' => 'yii\grid\SerialColumn'],
-//            'id_usuario',
-//            'fl_perfil',
-//            'fl_persona',
+                    [
+                        'attribute' => 'nombre_perfil',
+                        'value' => 'flPerfil.nombre',
+                        'filter' => Html::activeDropDownList($searchModel, 'nombre_perfil', ArrayHelper::map(Perfiles::find()->asArray()->all(), 'id_perfile', 'nombre'), ['class' => 'form-control', 'prompt' => 'Seleccione...']),
+                    ],
                     'username',
-//            'clave',
-                    // 'ultimo_login',
-                    // 'status',
-//            ['class' => 'yii\grid\ActionColumn'],
                     [
                         'attribute' => 'status',
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'width: 115px;'],
                         'filter' => Html::activeDropDownList($searchModel, 'status', ["1" => "Activo", "0" => "Inactivo"], ['class' => 'form-control', 'prompt' => 'Seleccione...']),
-//                        'filter' => array("1" => "Activo", "0" => "Inactivo"),
                         'value' => function($dataProvider, $key) {
                     return Yii::$app->Toolbox->flipSwitch($key, ($dataProvider->status == 0 ? '' : 'checked'), null, Url::to(['/usuarios/usuarios/udpswitch', 'id' => $dataProvider->id_usuario], true));
                 }
@@ -88,10 +80,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{view} {update} {delete}',
                         'buttons' => [
                             'view' => function ($url, $model) {
-                                return Html::a('<i class="fa fa-eye" aria-hidden="true" style="font-size:20px;"></i>', $url, ['class' => 'btn btn-primary btn-xs']);
+                                return Html::a('<i class="fa fa-eye" aria-hidden="true" style="font-size:20px;"></i>', $url, ['class' => 'btn btn-info btn-xs']);
                             },
                                     'update' => function ($url, $model, $key) {
-                                return Html::a('<i class = "fa icon-joker_edictar" aria-hidden = "true" style="font-size:20px;"></i>', $url, ['class' => 'btn btn-warning btn-xs']);
+                                return Html::a('<i class = "fa icon-joker_documento" aria-hidden = "true" style="font-size:20px;"></i>', $url, ['class' => 'btn btn-warning btn-xs']);
                             },
                                     'delete' => function ($url, $model, $key) {
 //                                return Html::a('<i class="fa fa-times-circle" aria-hidden="true" style="font-size:20px;">', $url, ['class' => 'btn btn-danger btn-xs']);

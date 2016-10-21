@@ -27,7 +27,7 @@ use yii\helpers\Url;
             'append' => [
                 'content' =>
                 Html::button('<i class="fa fa-check" aria-hidden="true"></i>', ['class' => 'btn btn-primary add_select', 'style' => 'display:none']) .
-                Html::button('<i class="fa fa-plus" aria-hidden="true"></i>', ['class' => 'btn btn-success btn_modal', 'data-toggle' => "modal", 'data-target' => "#myModal", 'onclick' => 'src_frame(\'' . Url::to(['/usuarios/personas/create?modal=1'], true) . '\')']),
+                Html::button('<i class="fa fa-plus" aria-hidden="true"></i>', ['class' => 'btn btn-success btn_modal', 'data-toggle' => "modal", 'data-target' => "#myModal", 'onclick' => 'src_frame(\'' . Url::to(['/usuarios/personas/create?modal=1'], true) . '\',\'List_Clientes\')']),
                 'asButton' => true
             ]
         ]

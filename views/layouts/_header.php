@@ -1,7 +1,9 @@
-<?php use yii\helpers\Url;?>
+<?php
+
+use yii\helpers\Url; ?>
 <div class="nav_varD">
     <div class="nav_logo">
-        <img src="<?php echo Url::to(['/'], true) ?>/img/IDS.png" alt="Smiley face" style="width: 100%;    margin-top: 10px;">
+        <img src="<?php echo Url::to(['/'], true) ?>/img/IDSB.png" alt="Smiley face" style="width: 100%;    margin-top: 10px;">
     </div>
 
     <div style=" background: red;" class="nav_derecho">
@@ -29,7 +31,7 @@
             <div class="menu_login">
 
                 <div><i class="fa fa-user" aria-hidden="true"></i> Mi Perfil</div>
-                <div><i class="fa fa-sign-in" aria-hidden="true"></i> Cerrar Sessión</div>
+                <div onclick="location.href = '<?php echo Url::to(['/site/logout'], true) ?>'" ><i class="fa fa-sign-in" aria-hidden="true"></i> Cerrar Sessión</div>
 
 
             </div>
@@ -47,7 +49,7 @@ echo Breadcrumbs::widget([
             ?>
 
             <!--<div class="sp_home" ><i class="fa fa-home fa-2x" aria-hidden="true"></i> </div>-->
-            <?php //  var_dump($this->params['breadcrumbs']) ?>
+<?php //  var_dump($this->params['breadcrumbs'])  ?>
 <!--            <div class="sp_semilla" ><i class="fa fa-angle-right" aria-hidden="true"></i> CONTENIDO </div>
             <div class="sp_calendar" >&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i></div>
             <div class="sp_clock" >&nbsp;<i class="fa fa-clock-o" aria-hidden="true"></i></div>-->

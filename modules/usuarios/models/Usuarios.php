@@ -48,10 +48,12 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['clave'], StrengthValidator::className(), 'preset' => 'normal', 'userAttribute' => 'username', 'on' => 'create'],
             ['validate_clave', 'required', 'on' => 'create'],
             ['validate_clave', 'required', 'on' => 'update'],
-            ['validate_clave', 'compare', 'compareAttribute' => 'clave', 'message' => "Passwords don't match"],
+            ['validate_clave', 'compare', 'compareAttribute' => 'clave', 'message' => "Passwords no coinciden"],
             [['fl_perfil'], 'exist', 'skipOnError' => true, 'targetClass' => Perfiles::className(), 'targetAttribute' => ['fl_perfil' => 'id_perfile']],
             [['fl_persona'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['fl_persona' => 'id_persona']],
-            [['id_usuario', 'fl_persona', 'username'], 'unique'],
+            [['id_usuario'], 'unique'],
+            [['username'], 'unique', 'message' => 'Alias ya ultilizado'],
+            [['fl_persona'], 'unique', 'message' => 'Esta persona ya posee un usuario'],
         ];
 
     }
@@ -62,12 +64,13 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function attributeLabels() {
         return [
             'id_usuario' => Yii::t('app', 'Id Usuario'),
-            'fl_perfil' => Yii::t('app', 'Fl Perfil'),
-            'fl_persona' => Yii::t('app', 'Fl Persona'),
-            'username' => Yii::t('app', 'Username'),
-            'clave' => Yii::t('app', 'Clave'),
+            'fl_perfil' => Yii::t('app', 'Perfil'),
+            'fl_persona' => Yii::t('app', 'Persona'),
+            'username' => Yii::t('app', 'Alias'),
+            'clave' => Yii::t('app', 'Password'),
             'ultimo_login' => Yii::t('app', 'Ultimo Login'),
             'status' => Yii::t('app', 'Status'),
+            'validate_clave' => Yii::t('app', 'Re-Password'),
         ];
 
     }

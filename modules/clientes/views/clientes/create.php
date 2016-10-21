@@ -7,7 +7,7 @@ use kartik\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\modules\usuarios\models\Clientes */
 
-$this->title = Yii::t('app', 'Create Clientes');
+$this->title = Yii::t('app', 'Crear Clientes');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clientes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -35,16 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                     <div class="list-group">
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
-                            <i style="font-size: 40px;" class="icon-joker__Portafolio-3" aria-hidden="true"></i><br/>Cliente
+                            <i style="font-size: 30px;" class="icon-joker__Portafolio-3" aria-hidden="true"></i><br/>Cliente
                         </div>
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').hide();">
-                            <i style="font-size: 40px;" class="icon-joker_dirreción " aria-hidden="true"></i><br/>Dirección
+                            <i style="font-size: 30px;" class="icon-joker_dirreción " aria-hidden="true"></i><br/>Dirección
                         </div>
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').show();">
-                            <i style="font-size: 40px;" class="icon-joker__libreta-22" aria-hidden="true"></i><br/>Contactos
+                            <i style="font-size: 30px;" class="icon-joker__libreta-22" aria-hidden="true"></i><br/>Contactos
                         </div>
                         <div class="list-group-item text-center tab_new" onclick="$('#submit_personas').show();">
-                            <i style="font-size: 40px;" class="icon-joker__referencia fa-2x" aria-hidden="true"></i><br/>Referenciado
+                            <i style="font-size: 30px;" class="icon-joker__referencia fa-2x" aria-hidden="true"></i><br/>Referenciado
                         </div>
 
 

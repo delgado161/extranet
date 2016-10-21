@@ -1,6 +1,10 @@
 var docElement, request;
 var pathname;
 $(document).ready(function () {
+
+   
+
+
     pathname = window.location.pathname; // Returns path only
     //
 //    $('#loading').show();
@@ -84,7 +88,7 @@ $(document).ready(function () {
     });
 
     $('.tab_new').click(function () {
-       
+
         $('.bhoechie-tab-content').hide();
         $('.bhoechie-tab-content:nth-child(' + ($(this).index() + 1) + ')').show();
         $('.tab_new').css('color', '#333');
@@ -102,8 +106,8 @@ $(document).ready(function () {
     $(".tab_validate ").on("afterValidate", function (event, messages) {
         valida_tab();
     });
-    
-    
+
+
     vent_size();
     vent_size();
     activate_menu();
@@ -337,15 +341,21 @@ function delete_list(id, div) {
 
 
 
-function src_frame(url) {
+function src_frame(url, id) {
     $('#fr_modal').attr('src', '.');
     $('#fr_modal').css('height', ($(window).height() - 140));
     $('#fr_modal').attr('src', url);
-    
-
+    $('#act_modal').val(id);
 }
-
 
 function closed_modal() {
     $('#myModal').modal('toggle');
+}
+
+
+function actualizar_select(id, option) {
+    $('#' + $('#act_modal').val()).append($('<option>', {
+        value: id,
+        text: option
+    }));
 }
