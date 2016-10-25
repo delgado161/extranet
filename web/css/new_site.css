@@ -275,3 +275,15 @@ textarea {
 .btn_accione i{
     font-size: 20px;
 }
+
+.div_list{
+    overflow: auto !important;
+    background:rgba(14, 65, 148, 0.6) !important;
+    color:white !important;
+}
+
+.titulo_list{
+    float: left !important;
+    font-size: 20px!important;
+    padding: 8px!important;
+}

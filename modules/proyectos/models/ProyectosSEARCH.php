@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\clientes\models;
+namespace app\modules\proyectos\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\clientes\models\Clientes;
+use app\modules\proyectos\models\Proyectos;
 
 /**
- * ClientesSEARCH represents the model behind the search form about `app\modules\usuarios\models\Clientes`.
+ * ProyectosSEARCH represents the model behind the search form about `app\modules\proyectos\models\Proyectos`.
  */
-class ClientesSEARCH extends Clientes
+class ProyectosSEARCH extends Proyectos
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ClientesSEARCH extends Clientes
     public function rules()
     {
         return [
-            [['id_cliente', 'fk_cliente_ref', 'nombre', 'nombre_corto', 'telefono_1', 'telefono_2', 'fax', 'rif'], 'safe'],
-            [['fk_presona_ref', 'status'], 'integer'],
+            [['id_proyectos', 'fk_tipo', 'fk_lider', 'fk_status', 'fk_contacto', 'fk_contact_alterno', 'status'], 'integer'],
+            [['fk_cliente', 'nombre', 'descripcion', 'Keywords', 'fl_inicio', 'fl_fin'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ClientesSEARCH extends Clientes
      */
     public function search($params)
     {
-        $query = Clientes::find();
+        $query = Proyectos::find();
 
         // add conditions that should always apply here
 
@@ -59,19 +59,21 @@ class ClientesSEARCH extends Clientes
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'fk_presona_ref' => $this->fk_presona_ref,
+            'id_proyectos' => $this->id_proyectos,
+            'fk_tipo' => $this->fk_tipo,
+            'fk_lider' => $this->fk_lider,
+            'fk_status' => $this->fk_status,
+            'fk_contacto' => $this->fk_contacto,
+            'fk_contact_alterno' => $this->fk_contact_alterno,
+            'fl_inicio' => $this->fl_inicio,
+            'fl_fin' => $this->fl_fin,
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'id_cliente', $this->id_cliente])
-            ->andFilterWhere(['like', 'fk_cliente_ref', $this->fk_cliente_ref])
+        $query->andFilterWhere(['like', 'fk_cliente', $this->fk_cliente])
             ->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'nombre_corto', $this->nombre_corto])
-            ->andFilterWhere(['like', 'telefono_1', $this->telefono_1])
-            ->andFilterWhere(['like', 'telefono_2', $this->telefono_2])
-            ->andFilterWhere(['like', 'fax', $this->fax])
-            ->andFilterWhere(['like', 'rif', $this->rif]);
-//            ->andFilterWhere(['like', 'nit', $this->nit]);
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion])
+            ->andFilterWhere(['like', 'Keywords', $this->Keywords]);
 
         return $dataProvider;
     }

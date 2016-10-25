@@ -145,8 +145,6 @@ class UsuariosController extends Controller {
         $model = $this->findModel($id);
         $model->status = ($model->status == 0) ? 1 : 0;
         $model->save();
-        var_dump($model->errors);
-
         return;
 
     }
