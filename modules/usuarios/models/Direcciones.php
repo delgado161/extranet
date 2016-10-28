@@ -101,6 +101,6 @@ class Direcciones extends \yii\db\ActiveRecord
      */
     public function getLfDireccionPtoreferencia()
     {
-        return $this->hasOne(TblDirecPtoreferencias::className(), ['lp_ptoreferencia_id' => 'lf_direccion_ptoreferencia']);
+        return $this->hasOne(Ptoreferencias::className(), ['lp_ptoreferencia_id' => 'lf_direccion_ptoreferencia']);
     }
 }

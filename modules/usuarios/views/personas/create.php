@@ -92,38 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-<script>
-    var map;
-    var mapDiv = document.getElementById('map');
-    var myLatlng = {lat: -25.363, lng: 131.044};
-    var markers = [];
 
-    function initMap() {
-        if ($('#direcciones-lat').val() == '' && $('#direcciones-lng').val() == '') {
-            map = new google.maps.Map(mapDiv, {
-                center: {lat: 10.5, lng: -66.91667},
-                zoom: 8
-            });
-        } else {
-            map = new google.maps.Map(mapDiv, {
-                center: {lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())},
-                zoom: 8
-            });
-
-            addMarker({lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())});
-        }
-
-        map.addListener('click', function (event) {
-            $('#direcciones-lat').val(event.latLng.lat());
-            $('#direcciones-lng').val(event.latLng.lng());
-//            alert(event.latLng.lat() + "--" + event.latLng.lng());
-            clearMarkers();
-            addMarker(event.latLng);
-
-        });
-    }
-
-</script>
 
 
 

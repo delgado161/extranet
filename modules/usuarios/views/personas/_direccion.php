@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 // var_dump($model_direcciones->attributes); 
 ?>
 
-<?php list($pais, $estado, $municipio) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
+<?php list($pais, $estado, $municipio,$parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
 
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  

@@ -2,8 +2,8 @@ var docElement, request;
 var pathname;
 $(document).ready(function () {
 
-   
-
+    
+    
 
     pathname = window.location.pathname; // Returns path only
     //
@@ -15,6 +15,7 @@ $(document).ready(function () {
             btn_activar_desactivar($(this).parent('.onoffswitch').find('.src_flip').attr('id'));
         });
     });
+
     $('.onoffswitch-label').click(function () {
         btn_activar_desactivar($(this).parent('.onoffswitch').find('.src_flip').attr('id'));
     });
@@ -180,15 +181,22 @@ function print_checkbox2(id) {
 
 
 function activate_menu() {
+    var listo = 0;
     $('.bloque_hijos div:not(.guia_,.guia2_)').each(function () {
         url_ = $(this).attr('onclick').replace("'", " ").split("/web/");
         url_2 = pathname.split("/web/");
         url_[1] = url_[1].replace("'", " ");
+
         url_3 = url_[1].split("/");
         var regexp = url_3[0] + "/" + url_3[1];
-        if (url_2[1].replace("'", " ").match(regexp)) {
+
+        url_2[1] = url_2[1].replace("'", " ");
+        url_4 = url_2[1].split("/");
+        var regexp2 = url_4[0] + "/" + url_4[1];
+
+        if ($.trim(regexp2) == $.trim(regexp) && listo==0) {
             $(this).parents('.bloque_hijos').prev('.bloque_').trigger('click');
-            return;
+            listo = 1;
         }
 //        alert(regexp);
 //        alert(url_2[1].replace("'", " ").match(regexp));
@@ -342,14 +350,16 @@ function delete_list(id, div) {
 
 
 function src_frame(url, id) {
+    $('#myModal2').show();
+  
     $('#fr_modal').attr('src', '.');
-    $('#fr_modal').css('height', ($(window).height() - 140));
+//    $('#fr_modal').css('height', ($(window).height() - 140));
     $('#fr_modal').attr('src', url);
     $('#act_modal').val(id);
 }
 
 function closed_modal() {
-    $('#myModal').modal('toggle');
+   $('#myModal2').hide();
 }
 
 

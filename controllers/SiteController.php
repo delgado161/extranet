@@ -138,5 +138,10 @@ class SiteController extends Controller {
         return $this->render('about');
 
     }
+    
+     public function actionMap($lat,$lgn) {
+        return $this->render('_mapa', ['lat' => $lat,'lgn' => $lgn]);
+    }
+    
 
 }

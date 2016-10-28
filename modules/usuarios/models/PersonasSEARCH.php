@@ -56,6 +56,20 @@ class PersonasSEARCH extends Personas {
             return $dataProvider;
         }
 
+
+       
+
+        $dataProvider->sort->attributes['nombre_persona'] = [
+            'asc' => ['nombre' => SORT_ASC, 's_nombre' => SORT_ASC],
+            'desc' => ['nombre' => SORT_DESC, 's_nombre' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['apellido_persona'] = [
+            'asc' => ['apellido' => SORT_ASC, 's_apellido' => SORT_ASC],
+            'desc' => ['apellido' => SORT_DESC, 's_apellido' => SORT_DESC],
+        ];
+
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id_persona' => $this->id_persona,

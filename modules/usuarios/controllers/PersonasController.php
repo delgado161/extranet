@@ -56,11 +56,15 @@ class PersonasController extends Controller {
      */
     public function actionView($id) {
         Yii::$app->Toolbox->verificar_modal();
+        $model = $this->findModel($id);
+        if (Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one() !== null)
+            $model_direcciones = Direcciones::find()->where(['claveforeana' => $model->id_persona, 'tabla_referen' => $model->tableName()])->one();
+        else
+            $model_direcciones = new Direcciones();
 
 //        $model= $this->findModel($id);
 //        Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Persona: ' . $model->nombre . " " . $model->s_nombre . " " . $model->apellido . " " . $model->s_apellido,['bottom','right']);
-//                   
-        return $this->render('view', ['model' => $this->findModel($id),]);
+        return $this->render('view', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
 
     }
 

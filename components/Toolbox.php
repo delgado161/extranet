@@ -36,7 +36,7 @@ class Toolbox extends Component {
         $municipio = Municipios::find()->where(['lp_municipio_id' => $parroquia->lf_parroquia_municipio])->one();
         $estado = Estados::find()->where(['lp_estado_id' => $municipio->lf_municipio_estado])->one();
         $pais = Paises::find()->where(['lp_pais_id' => $estado->lf_estado_pais])->one();
-        return [$pais, $estado, $municipio];
+        return [$pais, $estado, $municipio,$parroquia];
 
     }
 

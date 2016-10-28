@@ -55,16 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
             ?>
 
-          
+
             <div class="div_list" style="">
                 <div class="titulo_list" style=""> Persona </div><?= Html::a(Yii::t('app', '<i class="icon-joker_documento" aria-hidden="true"></i>'), ['/usuarios/personas/update', 'id' => $model->id_usuario], ['data-toggle' => "tooltip", 'title' => "Hooray!", 'class' => 'btn_crear', 'style' => 'margin-right:10px;font-size: 25px; margin-top: 6px;color: white;']) ?>    
             </div>
 
-            <?php
-            Pjax::begin(['id' => 'pbegin_' . $model->flPersona->tableName(),
-//        'timeout' => false,
-                'enablePushState' => false,]);
-            ?>  
+
             <?=
             DetailView::widget([
                 'model' => $model->flPersona,
@@ -104,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ])
             ?>
-            <?php Pjax::end(); ?>
+
         </div>
 
 
