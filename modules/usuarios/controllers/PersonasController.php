@@ -81,9 +81,13 @@ class PersonasController extends Controller {
         $model_direcciones = new Direcciones();
 
         if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
-            $model->status = 0;
+            $model->status = 1;
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
             $model->foto = \yii\web\UploadedFile::getInstance($model, 'foto');
+
+            if (empty($model->foto))
+                $model->foto = 'ND.jpg';
+
             $model_direcciones->lat = floatval($model_direcciones->lat);
             $model_direcciones->lng = floatval($model_direcciones->lng);
             $model_direcciones->visibilidad = 1;
@@ -127,6 +131,9 @@ class PersonasController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->fl_nacimiento = date_format(date_create($model->fl_nacimiento), 'Y-m-d');
             $model->foto = \yii\web\UploadedFile::getInstance($model, 'foto');
+            if (empty($model->foto))
+                $model->foto = 'ND.jpg';
+            
             $model_direcciones->lat = floatval($model_direcciones->lat);
             $model_direcciones->lng = floatval($model_direcciones->lng);
 

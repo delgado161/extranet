@@ -35,6 +35,8 @@ use yii\validators\Validator;
  *
  * You may directly use Model to store model data, or extend it with customization.
  *
+ * For more details and usage information on Model, see the [guide article on models](guide:structure-models).
+ *
  * @property \yii\validators\Validator[] $activeValidators The validators applicable to the current
  * [[scenario]]. This property is read-only.
  * @property array $attributes Attribute values (name => value).
@@ -534,7 +536,7 @@ class Model extends Component implements IteratorAggregate, ArrayAccess, Arrayab
     }
 
     /**
-     * Returns the errors for all attribute or a single attribute.
+     * Returns the errors for all attributes or a single attribute.
      * @param string $attribute attribute name. Use null to retrieve errors for all attributes.
      * @property array An array of errors for all attributes. Empty array is returned if no error.
      * The result is a two-dimensional array. See [[getErrors()]] for detailed description.
@@ -633,7 +635,7 @@ class Model extends Component implements IteratorAggregate, ArrayAccess, Arrayab
 
     /**
      * Removes errors for all attributes or a single attribute.
-     * @param string $attribute attribute name. Use null to remove errors for all attribute.
+     * @param string $attribute attribute name. Use null to remove errors for all attributes.
      */
     public function clearErrors($attribute = null)
     {
@@ -964,12 +966,12 @@ class Model extends Component implements IteratorAggregate, ArrayAccess, Arrayab
      * Returns whether there is an element at the specified offset.
      * This method is required by the SPL interface [[\ArrayAccess]].
      * It is implicitly called when you use something like `isset($model[$offset])`.
-     * @param mixed $offset the offset to check on
-     * @return boolean
+     * @param mixed $offset the offset to check on.
+     * @return boolean whether or not an offset exists.
      */
     public function offsetExists($offset)
     {
-        return $this->$offset !== null;
+        return isset($this->$offset);
     }
 
     /**

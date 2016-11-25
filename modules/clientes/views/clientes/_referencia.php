@@ -3,7 +3,7 @@
 use \app\modules\usuarios\models\Personas;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
-use app\modules\clientes\models\Clientes;
+use \app\modules\clientes\models\Clientes;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
@@ -40,7 +40,7 @@ use yii\helpers\Url;
 
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">  
     <?php
-    $listdata = ArrayHelper::map(Clientes::findAll(['status' => '1']), 'id_cliente');
+    $listdata = ArrayHelper::map(Clientes::findAll(['status' => 1]), 'id_cliente','nombre');
 
     echo '<br><label class="control-label">Cliente</label>';
     echo Select2::widget([

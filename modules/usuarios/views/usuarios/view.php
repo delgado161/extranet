@@ -26,7 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <br>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: center;" >
-            <?= Html::img(Url::to(['/'], true) . 'uploads/personas/image/thumb_' . Yii::$app->user->identity->id . ".jpg"); ?>
+             <?php
+                if ($model->flPersona->foto != 'ND.jpg' && !empty($model->flPersona->foto ) )
+                   echo Html::img(Url::to(['/'], true) . 'uploads/personas/image/thumb_' . Yii::$app->user->identity->id . ".jpg");
+                else
+                   echo Html::img(Url::to(['/'], true) . 'uploads/personas/image/ND.jpg');
+                ?>
+            
             <br>   <br>
             <?= Html::a(Yii::t('app', '<i class="icon-joker_clave" aria-hidden="true"></i>'), ['update', 'id' => $model->id_usuario], ['data-toggle' => "tooltip", 'title' => "Hooray!", 'class' => '', 'style' => 'font-size: 30px; margin-top: 6px;color: red;']) ?>
         </div>

@@ -26,6 +26,10 @@ Change Log: `yii2-widget-activeform`
 - Add contribution and issue/PR log templates.
 - Enhance PHP Documentation for all classes and methods in the extension.
 - (bug #78): Correct offset CSS class generation for horizontal forms.
+- (enh #79, #80): Allow configuration of multiple addons.
+- (enh #81): Change visibility of `$_pluginHintKeys`.
+- (enh #82): Allow configuration of `itemOptions` for `checkboxButtonGroup` and `radioButtonGroup`.
+- CSS enhancements for addons and other styling validation enhancements.
 
 ## Version 1.4.8
 

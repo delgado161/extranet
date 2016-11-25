@@ -25,6 +25,10 @@ $config = [
         'Toolbox' => [
             'class' => 'app\components\Toolbox',
         ],
+        
+         'RSA' => [
+            'class' => 'app\components\Crypt_RSA\Crypt\RSA',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '383179fd16c20d8328c5796f830172ae1a69ac88',

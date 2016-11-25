@@ -11,14 +11,14 @@ use kartik\select2\Select2;
 // var_dump($model_direcciones->attributes); 
 ?>
 
-<?php list($pais, $estado, $municipio,$parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
+<?php list($pais, $estado, $municipio, $parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
 
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
     <?php
     $listdata = ArrayHelper::map(Paises::find()->all(), 'lp_pais_id', 'nombre');
 
-    echo '<label class="control-label">Paises</label>';
+    echo '<label class="control-label">Pais</label>';
     echo Select2::widget([
         'name' => 'Direcciones[pais]',
         'value' => $pais->lp_pais_id, // initial value
@@ -40,7 +40,7 @@ use kartik\select2\Select2;
     else
         $listdata = '';
 
-    echo '<label class="control-label">Estados</label>';
+    echo '<label class="control-label">Estado</label>';
     echo Select2::widget([
         'name' => 'Direcciones[estado]',
         'data' => $listdata,
@@ -55,14 +55,15 @@ use kartik\select2\Select2;
 </div>
 
 
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
+    <br>
     <?php
     if (!empty($municipio->lp_municipio_id))
         $listdata = ArrayHelper::map(Municipios::find()->all(), 'lp_municipio_id', 'nombre');
     else
         $listdata = '';
 
-    echo '<label class="control-label">Municipios</label>';
+    echo '<label class="control-label">Municipio</label>';
     echo Select2::widget([
         'name' => 'Direcciones[municipio]',
         'data' => $listdata,
@@ -77,29 +78,24 @@ use kartik\select2\Select2;
 </div>
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
+    <br>
+    <!--    <div class="form-group field-direcciones-lf_direccion_parroquia required">-->
     <?php
     if (!empty($model_direcciones->lf_direccion_parroquia))
         $listdata = ArrayHelper::map(Parroquias::find()->all(), 'lp_parroquia_id', 'nombre');
     else
         $listdata = '';
 
-    echo '<label class="control-label">Parroquia</label>';
-    echo Select2::widget([
-        'name' => 'Direcciones[lf_direccion_parroquia]',
+    echo $form->field($model_direcciones, 'lf_direccion_parroquia')->widget(Select2::classname(), [
         'data' => $listdata,
-        'value' => $model_direcciones->lf_direccion_parroquia, // initial value
-        'options' => ['placeholder' => 'Seleccione...', 'id' => 'parroquia_',],
+        'options' => ['placeholder' => 'Seleccione...'],
         'pluginOptions' => [
-            'allowClear' => true,
+            'allowClear' => true
         ],
     ]);
-
-
-
-
-//    echo $form->field($model_direcciones, 'lf_direccion_parroquia')->dropDownList(array(), ['prompt' => 'Seleccione...', 'id' => 'parroquia_',
-//    ]);
     ?>
+
+
 </div>
 
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">  

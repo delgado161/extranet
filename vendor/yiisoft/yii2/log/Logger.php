@@ -24,6 +24,8 @@ use yii\base\Component;
  * - [[Yii::beginProfile()]]
  * - [[Yii::endProfile()]]
  *
+ * For more details and usage information on Logger, see the [guide article on logging](guide:runtime-logging).
+ *
  * When the application ends or [[flushInterval]] is reached, Logger will call [[flush()]]
  * to send logged messages to different log targets, such as [[FileTarget|file]], [[EmailTarget|email]],
  * or [[DbTarget|database]], with the help of the [[dispatcher]].
@@ -307,6 +309,7 @@ class Logger extends Component
             self::LEVEL_TRACE => 'trace',
             self::LEVEL_PROFILE_BEGIN => 'profile begin',
             self::LEVEL_PROFILE_END => 'profile end',
+            self::LEVEL_PROFILE => 'profile'
         ];
 
         return isset($levels[$level]) ? $levels[$level] : 'unknown';

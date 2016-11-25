@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-<div class="usuarios-view panel_up">
+<div class="personas-view panel_up">
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -30,26 +30,31 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-body">
             <br>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: center;" >
-                <?= Html::img(Url::to(['/'], true) . 'uploads/personas/image/thumb_' . Yii::$app->user->identity->id . ".jpg"); ?>
+                <?php
+                if ($model->foto != 'ND.jpg' && !empty($model->foto ) )
+                   echo Html::img(Url::to(['/'], true) . 'uploads/personas/image/thumb_' . Yii::$app->user->identity->id . ".jpg");
+                else
+                   echo Html::img(Url::to(['/'], true) . 'uploads/personas/image/ND.jpg');
+                ?>
             </div>
 
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" >
                 <div class="div_list" style="">
                     <div class="titulo_list" style=""> Persona </div><?= Html::a(Yii::t('app', '<i class="icon-joker_documento" aria-hidden="true"></i>'), ['/usuarios/personas/update', 'id' => $model->id_persona], ['data-toggle' => "tooltip", 'title' => "Hooray!", 'class' => 'btn_crear', 'style' => 'margin-right:10px;font-size: 25px; margin-top: 6px;color: white;']) ?>    
                 </div>
-                <?php list($pais, $estado, $municipio, $parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
+<?php list($pais, $estado, $municipio, $parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia); ?>
 
 
-                <?php
-                $direccion_completa = $pais->nombre . ", ESTADO " . $estado->nombre . " MUNICIPIO " . $municipio->nombre . " PARROQUIA " . $parroquia->nombre . ", ";
-                $direccion_completa.=(!empty($model_direcciones->urbarn_barrio)) ? $model_direcciones->t_urban_barr . " " . $model_direcciones->urbarn_barrio . ", " : '';
-                $direccion_completa.=(!empty($model_direcciones->calle_av)) ? $model_direcciones->t_calle_av . " " . $model_direcciones->calle_av . ", " : '';
-                $direccion_completa.=$model_direcciones->tipovivienda . " " . $model_direcciones->datovivienda . " ";
-                $direccion_completa.="<br><br> CODIGO POSTAL" . $model_direcciones->codpostal;
+<?php
+$direccion_completa = $pais->nombre . ", ESTADO " . $estado->nombre . " MUNICIPIO " . $municipio->nombre . " PARROQUIA " . $parroquia->nombre . ", ";
+$direccion_completa.=(!empty($model_direcciones->urbarn_barrio)) ? $model_direcciones->t_urban_barr . " " . $model_direcciones->urbarn_barrio . ", " : '';
+$direccion_completa.=(!empty($model_direcciones->calle_av)) ? $model_direcciones->t_calle_av . " " . $model_direcciones->calle_av . ", " : '';
+$direccion_completa.=$model_direcciones->tipovivienda . " " . $model_direcciones->datovivienda . " ";
+$direccion_completa.="<br><br> CODIGO POSTAL" . $model_direcciones->codpostal;
 
-                $direccion_completa.= "<br><br>PUNTO DE REFERENCIA<br>" . $model_direcciones->lfDireccionPtoreferencia->nombre . " " . $model_direcciones->referencia;
-                $direccion_completa.='<div style="float: right;color:deeppink;" data-toggle = "modal"  data-target = "#myModal" onclick = src_frame(\'' . Url::to(['/site/map?modal=1&lat=' . $model_direcciones->lat . "&lgn=" . $model_direcciones->lng], true) . '\',\'\')>Ver <i class="fa icon-joker_dirreción fa-3x" aria-hidden="true"></i></div>';
-                ?>
+$direccion_completa.= "<br><br>PUNTO DE REFERENCIA<br>" . $model_direcciones->lfDireccionPtoreferencia->nombre . " " . $model_direcciones->referencia;
+$direccion_completa.='<div style="float: right;color:deeppink;" data-toggle = "modal"  data-target = "#myModal" onclick = src_frame(\'' . Url::to(['/site/map?modal=1&lat=' . $model_direcciones->lat . "&lgn=" . $model_direcciones->lng], true) . '\',\'\')>Ver <i class="fa icon-joker_dirreción fa-3x" aria-hidden="true"></i></div>';
+?>
 
                 <?=
                 DetailView::widget([
@@ -57,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         [
                             'label' => 'N° Documento',
-                            'value' => $model->fkDocumento->nombre . "-" . $model->n_documento,
+                            'value' => $model->fkDocumento->nombre . "-" . strtoupper ($model->n_documento),
                         ],
                         [
                             'label' => 'Nombre completo',
@@ -109,4 +114,3 @@ $this->params['breadcrumbs'][] = $this->title;
     <script>parent.actualizar_select('<?= $model->id_persona ?>', '<?= $this->title ?>')</script>
 <?php } ?>
 
-    

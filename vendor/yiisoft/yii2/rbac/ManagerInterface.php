@@ -8,6 +8,8 @@
 namespace yii\rbac;
 
 /**
+ * For more details and usage information on ManagerInterface, see the [guide article on security authorization](guide:security-authorization).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -75,6 +77,16 @@ interface ManagerInterface extends CheckAccessInterface
      * @return Role[] all roles directly assigned to the user. The array is indexed by the role names.
      */
     public function getRolesByUser($userId);
+
+    /**
+     * Returns the roles that are adding to the role via [[addChild()]] by recursive.
+     * @param string $roleName name of parent Role.
+     * @return Role[] all roles directly adding to the role. The array is indexed by the role names.
+     * First element is a Role item that are getting by $roleName.
+     * @throws \yii\base\InvalidParamException if Role was not found that are getting by $roleName
+     * @since 2.0.10
+     */
+    public function getChildRoles($roleName);
 
     /**
      * Returns the named permission.

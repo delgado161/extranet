@@ -18,7 +18,7 @@ class ClientesSEARCH extends Clientes
     public function rules()
     {
         return [
-            [['id_cliente', 'fk_cliente_ref', 'nombre', 'nombre_corto', 'telefono_1', 'telefono_2', 'fax', 'rif'], 'safe'],
+            [['id_cliente', 'fk_cliente_ref', 'nombre', 'nombre_corto', 'telefono_1', 'telefono_2', 'fax', 'rif','status'], 'safe'],
             [['fk_presona_ref', 'status'], 'integer'],
         ];
     }

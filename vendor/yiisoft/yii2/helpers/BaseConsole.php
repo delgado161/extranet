@@ -614,13 +614,13 @@ class BaseConsole
             $output = [];
             exec('mode con', $output);
             if (isset($output, $output[1]) && strpos($output[1], 'CON') !== false) {
-                return $size = [(int) preg_replace('~\D~', '', $output[3]), (int) preg_replace('~\D~', '', $output[4])];
+                return $size = [(int) preg_replace('~\D~', '', $output[4]), (int) preg_replace('~\D~', '', $output[3])];
             }
         } else {
             // try stty if available
             $stty = [];
             if (exec('stty -a 2>&1', $stty) && preg_match('/rows\s+(\d+);\s*columns\s+(\d+);/mi', implode(' ', $stty), $matches)) {
-                return $size = [$matches[2], $matches[1]];
+                return $size = [(int)$matches[2], (int)$matches[1]];
             }
 
             // fallback to tput, which may not be updated on terminal resize
@@ -968,7 +968,10 @@ class BaseConsole
             $info .= sprintf(' ETA: %d sec.', self::$_progressEta);
         }
 
-        $width -= 3 + static::ansiStrlen($info);
+        // Number extra characters outputted. These are opening [, closing ], and space before info
+        // Since Windows uses \r\n\ for line endings, there's one more in the case
+        $extraChars = static::isRunningOnWindows() ? 4 : 3;
+        $width -= $extraChars + static::ansiStrlen($info);
         // skipping progress bar on very small display or if forced to skip
         if ($width < 5) {
             static::stdout("\r$prefix$info   ");

@@ -295,7 +295,7 @@ function onchange_estado(url_) {
 
 function onchange_municipio(url_) {
     $.post("" + url_ + "", {id: $('#municipio_').val()}, function (data) {
-        $("#parroquia_").html(data);
+        $("#direcciones-lf_direccion_parroquia").html(data);
     });
 }
 
@@ -341,10 +341,6 @@ function delete_list(id, div) {
 
     if ($("#" + div + ' .form-group').size() < 1)
         $('#' + div + " .SN_LISTA").show();
-
-
-
-
 }
 
 

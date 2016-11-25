@@ -50,6 +50,24 @@ use yii\helpers\Console;
  * yii migrate/down
  * ```
  *
+ * Since 2.0.10 you can use namespaced migrations. In order to enable this feature you should configure [[migrationNamespaces]]
+ * property for the controller at application configuration:
+ *
+ * ```php
+ * return [
+ *     'controllerMap' => [
+ *         'migrate' => [
+ *             'class' => 'yii\console\controllers\MigrateController',
+ *             'migrationNamespaces' => [
+ *                 'app\migrations',
+ *                 'some\extension\migrations',
+ *             ],
+ *             //'migrationPath' => null, // allows to disable not namespaced migration completely
+ *         ],
+ *     ],
+ * ];
+ * ```
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -164,8 +182,11 @@ class MigrateController extends BaseMigrateController
      */
     protected function createMigration($class)
     {
-        $file = $this->migrationPath . DIRECTORY_SEPARATOR . $class . '.php';
-        require_once($file);
+        $class = trim($class, '\\');
+        if (strpos($class, '\\') === false) {
+            $file = $this->migrationPath . DIRECTORY_SEPARATOR . $class . '.php';
+            require_once($file);
+        }
 
         return new $class(['db' => $this->db]);
     }
@@ -272,8 +293,10 @@ class MigrateController extends BaseMigrateController
                 ]
             );
 
-            $foreignKeys[$firstTable . '_id'] = $firstTable;
-            $foreignKeys[$secondTable . '_id'] = $secondTable;
+            $foreignKeys[$firstTable . '_id']['table'] = $firstTable;
+            $foreignKeys[$secondTable . '_id']['table'] = $secondTable;
+            $foreignKeys[$firstTable . '_id']['column'] = null;
+            $foreignKeys[$secondTable . '_id']['column'] = null;
             $table = $firstTable . '_' . $secondTable;
         } elseif (preg_match('/^add_(.+)_columns?_to_(.+)_table$/', $name, $matches)) {
             $templateFile = $this->generatorTemplateFiles['add_column'];
@@ -291,11 +314,36 @@ class MigrateController extends BaseMigrateController
             $table = mb_strtolower($matches[1], Yii::$app->charset);
         }
 
-        foreach ($foreignKeys as $column => $relatedTable) {
+        foreach ($foreignKeys as $column => $foreignKey) {
+            $relatedColumn = $foreignKey['column'];
+            $relatedTable = $foreignKey['table'];
+            // Since 2.0.11 if related column name is not specified,
+            // we're trying to get it from table schema
+            // @see https://github.com/yiisoft/yii2/issues/12748
+            if ($relatedColumn === null) {
+                $relatedColumn = 'id';
+                try {
+                    $this->db = Instance::ensure($this->db, Connection::className());
+                    $relatedTableSchema = $this->db->getTableSchema($relatedTable);
+                    if ($relatedTableSchema !== null) {
+                        $primaryKeyCount = count($relatedTableSchema->primaryKey);
+                        if ($primaryKeyCount === 1) {
+                            $relatedColumn = $relatedTableSchema->primaryKey[0];
+                        } elseif ($primaryKeyCount > 1) {
+                            $this->stdout("Related table for field \"{$column}\" exists, but primary key is composite. Default name \"id\" will be used for related field\n", Console::FG_YELLOW);
+                        } elseif ($primaryKeyCount === 0) {
+                            $this->stdout("Related table for field \"{$column}\" exists, but does not have a primary key. Default name \"id\" will be used for related field.\n", Console::FG_YELLOW);
+                        }
+                    }
+                } catch (\ReflectionException $e) {
+                    $this->stdout("Cannot initialize database component to try reading referenced table schema for field \"{$column}\". Default name \"id\" will be used for related field.\n", Console::FG_YELLOW);
+                }
+            }
             $foreignKeys[$column] = [
                 'idx' => $this->generateTableName("idx-$table-$column"),
                 'fk' => $this->generateTableName("fk-$table-$column"),
                 'relatedTable' => $this->generateTableName($relatedTable),
+                'relatedColumn' => $relatedColumn,
             ];
         }
 
@@ -342,16 +390,21 @@ class MigrateController extends BaseMigrateController
 
             foreach ($chunks as $i => &$chunk) {
                 if (strpos($chunk, 'foreignKey') === 0) {
-                    preg_match('/foreignKey\((\w*)\)/', $chunk, $matches);
-                    $foreignKeys[$property] = isset($matches[1])
-                        ? $matches[1]
-                        : preg_replace('/_id$/', '', $property);
+                    preg_match('/foreignKey\((\w*)\s?(\w*)\)/', $chunk, $matches);
+                    $foreignKeys[$property] = [
+                        'table' => isset($matches[1])
+                            ? $matches[1]
+                            : preg_replace('/_id$/', '', $property),
+                        'column' => !empty($matches[2])
+                            ? $matches[2]
+                            : null,
+                    ];
 
                     unset($chunks[$i]);
                     continue;
                 }
 
-                if (!preg_match('/^(.+?)\(([^)]+)\)$/', $chunk)) {
+                if (!preg_match('/^(.+?)\(([^(]+)\)$/', $chunk)) {
                     $chunk .= '()';
                 }
             }
@@ -375,7 +428,7 @@ class MigrateController extends BaseMigrateController
     protected function addDefaultPrimaryKey(&$fields)
     {
         foreach ($fields as $field) {
-            if ($field['decorators'] === 'primaryKey()') {
+            if ($field['decorators'] === 'primaryKey()' || $field['decorators'] === 'bigPrimaryKey()') {
                 return;
             }
         }

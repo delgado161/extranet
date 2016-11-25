@@ -14,12 +14,14 @@ use yii\base\InvalidParamException;
 /**
  * BaseDataProvider provides a base class that implements the [[DataProviderInterface]].
  *
+ * For more details and usage information on BaseDataProvider, see the [guide article on data providers](guide:output-data-providers).
+ *
  * @property integer $count The number of data models in the current page. This property is read-only.
  * @property array $keys The list of key values corresponding to [[models]]. Each data model in [[models]] is
  * uniquely identified by the corresponding key value in this array.
  * @property array $models The list of data models in the current page.
- * @property Pagination|boolean $pagination The pagination object. If this is false, it means the pagination
- * is disabled. Note that the type of this property differs in getter and setter. See [[getPagination()]] and
+ * @property Pagination|false $pagination The pagination object. If this is false, it means the pagination is
+ * disabled. Note that the type of this property differs in getter and setter. See [[getPagination()]] and
  * [[setPagination()]] for details.
  * @property Sort|boolean $sort The sorting object. If this is false, it means the sorting is disabled. Note
  * that the type of this property differs in getter and setter. See [[getSort()]] and [[setSort()]] for details.
@@ -163,7 +165,7 @@ abstract class BaseDataProvider extends Component implements DataProviderInterfa
      * Returns the pagination object used by this data provider.
      * Note that you should call [[prepare()]] or [[getModels()]] first to get correct values
      * of [[Pagination::totalCount]] and [[Pagination::pageCount]].
-     * @return Pagination|boolean the pagination object. If this is false, it means the pagination is disabled.
+     * @return Pagination|false the pagination object. If this is false, it means the pagination is disabled.
      */
     public function getPagination()
     {

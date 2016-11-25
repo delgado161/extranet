@@ -4,11 +4,14 @@ namespace Faker;
 
 /**
  * @property string $name
+ * @method string name(string $gender = null)
  * @property string $firstName
+ * @method string firstName(string $gender = null)
  * @property string $firstNameMale
  * @property string $firstNameFemale
  * @property string $lastName
  * @property string $title
+ * @method string title(string $gender = null)
  * @property string $titleMale
  * @property string $titleFemale
  *
@@ -123,7 +126,7 @@ namespace Faker;
  * @method int numberBetween($min = 0, $max = 2147483647)
  * @method float randomFloat($nbMaxDecimals = null, $min = 0, $max = null)
  * @method mixed randomElement(array $array = array('a', 'b', 'c'))
- * @method array randomElements(array $array = array('a', 'b', 'c'), $count = 1)
+ * @method array randomElements(array $array = array('a', 'b', 'c'), $count = 1, $allowDuplicates = false)
  * @method array|string shuffle($arg = '')
  * @method array shuffleArray(array $array = array())
  * @method string shuffleString($string = '', $encoding = 'UTF-8')
@@ -167,6 +170,9 @@ namespace Faker;
  * @property string $rgbCssColor
  * @property string $safeColorName
  * @property string $colorName
+ *
+ * @method string randomHtml($maxDepth = 4, $maxWidth = 4)
+ *
  */
 class Generator
 {
@@ -188,7 +194,11 @@ class Generator
         if ($seed === null) {
             mt_srand();
         } else {
-            mt_srand((int) $seed);
+            if (PHP_VERSION_ID < 70100) {
+                mt_srand((int) $seed);
+            } else {
+                mt_srand((int) $seed, MT_RAND_PHP);
+            }
         }
     }
 

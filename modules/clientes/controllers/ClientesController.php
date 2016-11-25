@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\usuarios\models\Direcciones;
+use app\modules\clientes\models\ClienteContacto;
 
 /**
  * ClientesController implements the CRUD actions for Clientes model.
@@ -51,9 +52,17 @@ class ClientesController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        return $this->render('view', [
-                    'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+
+        if (Direcciones::find()->where(['claveforeana' => $model->id_cliente, 'tabla_referen' => $model->tableName()])->one() !== null)
+            $model_direcciones = Direcciones::find()->where(['claveforeana' => $model->id_cliente, 'tabla_referen' => $model->tableName()])->one();
+        else
+            $model_direcciones = new Direcciones();
+
+        return $this->render('view', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
+//        return $this->render('view', [
+//                    'model' => $this->findModel($id),
+//        ]);
 
     }
 
@@ -68,10 +77,39 @@ class ClientesController extends Controller {
         $model = new Clientes();
         $model_direcciones = new Direcciones();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_cliente]);
+        if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
+            $model->status = 1;
+            $model->id_cliente = Yii::$app->Toolbox->randomText(5, $model->tableName(), id_cliente);
+
+            $model_direcciones->lat = floatval($model_direcciones->lat);
+            $model_direcciones->lng = floatval($model_direcciones->lng);
+            $model_direcciones->visibilidad = 1;
+
+            if ($model->save()) {
+                $model_direcciones->claveforeana = $model->id_cliente;
+                $model_direcciones->tabla_referen = $model->tableName();
+                $model_direcciones->save();
+
+
+                if ($_POST['List_Clientes']) {
+                    foreach ($_POST['List_Clientes'] as $key => $valor) {
+                        $ClienteContacto = new ClienteContacto();
+                        $ClienteContacto->fk_persona = $key;
+                        $ClienteContacto->fk_cliente = $model->id_cliente;
+                        $ClienteContacto->save();
+                    }
+                }
+                Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Cliente: ' . $model->nombre, ['bottom', 'right']);
+//                return $this->redirect(Yii::$app->Toolbox->verificar_modal(['view', 'id' => $model->id_cliente]));
+
+//                return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones, 'Lista_contactos' => $_POST['List_Clientes']]);
+                return $this->redirect(['view', 'id' => $model->id_cliente]);
+            } else {
+                return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones, 'Lista_contactos' => $_POST['List_Clientes']]);
+            }
+//         
         } else {
-            return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones,]);
+            return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones, 'Lista_contactos' => array()]);
         }
 
     }

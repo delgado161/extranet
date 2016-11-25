@@ -25,6 +25,10 @@ class ComposerStaticInite7bbc9e18f4d13c4675486b0c8f56260
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'x' => 
+        array (
+            'xj\\rsa\\' => 7,
+        ),
         'k' => 
         array (
             'kartik\\widgets\\' => 15,
@@ -108,6 +112,10 @@ class ComposerStaticInite7bbc9e18f4d13c4675486b0c8f56260
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'xj\\rsa\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xj/yii2-rsa',
         ),
         'kartik\\widgets\\' => 
         array (

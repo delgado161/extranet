@@ -4,6 +4,7 @@ namespace app\modules\clientes\models;
 
 use Yii;
 use app\modules\usuarios\models\Personas;
+use \app\modules\configuraciones\models\TipoDocumento;
 
 /**
  * This is the model class for table "clientes".
@@ -19,6 +20,8 @@ use app\modules\usuarios\models\Personas;
  * @property string $rif
  * @property string $fk_documento
  * @property integer $status
+ * @property string $email
+ * @property string $t_empresa
  *
  * @property Clientes $fkClienteRef
  * @property Clientes[] $clientes
@@ -40,7 +43,7 @@ class Clientes extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_cliente', 'nombre', 'nombre_corto', 'telefono_1', 'rif', 'status'], 'required'],
+            [['id_cliente', 'nombre', 'nombre_corto', 'telefono_1', 'rif', 'status', 'email', 't_empresa', 'fk_documento'], 'required'],
             [['fk_presona_ref', 'status'], 'integer'],
             [['id_cliente', 'fk_cliente_ref', 'nombre_corto'], 'string', 'max' => 100],
             [['nombre'], 'string', 'max' => 250],
@@ -65,9 +68,11 @@ class Clientes extends \yii\db\ActiveRecord {
             'telefono_1' => Yii::t('app', 'Telefono 1'),
             'telefono_2' => Yii::t('app', 'Telefono 2'),
             'fax' => Yii::t('app', 'Fax'),
-            'rif' => Yii::t('app', 'Rif'),
-            'fk_documento' => Yii::t('app', 'Nit'),
-            'status' => Yii::t('app', 'Status'),
+            'rif' => Yii::t('app', 'N°'),
+            'fk_documento' => Yii::t('app', 'Tipo'),
+            'status' => Yii::t('app', 'Estatus'),
+            'email' => Yii::t('app', 'Email'),
+            't_empresa' => Yii::t('app', 'Tipo de Cliente'),
         ];
 
     }
@@ -93,6 +98,14 @@ class Clientes extends \yii\db\ActiveRecord {
      */
     public function getFkPresonaRef() {
         return $this->hasOne(Personas::className(), ['id_persona' => 'fk_presona_ref']);
+
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFkDocumento() {
+        return $this->hasOne(TipoDocumento::className(), ['id_tipo_documento' => 'fk_documento']);
 
     }
 

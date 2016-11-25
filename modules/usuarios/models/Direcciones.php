@@ -50,7 +50,7 @@ class Direcciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'tipovivienda', 'datovivienda', 'piso_numero', 'lf_direccion_ptoreferencia', 'referencia', 'codpostal', 'claveforeana', 'tabla_referen', 'lf_direccion_parroquia', 'visibilidad'], 'required'],
+            [[ 'urbarn_barrio', 'calle_av','tipovivienda', 'datovivienda', 'piso_numero', 'lf_direccion_ptoreferencia', 'referencia', 'codpostal', 'claveforeana', 'tabla_referen', 'lf_direccion_parroquia', 'visibilidad'], 'required'],
             [['lp_direccion_id','codpostal', 'visibilidad'], 'integer'],
             [[ 'lf_direccion_ptoreferencia', 'claveforeana', 'lf_direccion_parroquia'], 'string', 'max' => 5],
             [['t_urban_barr', 't_calle_av'], 'string', 'max' => 13],
@@ -70,20 +70,20 @@ class Direcciones extends \yii\db\ActiveRecord
     {
         return [
             'lp_direccion_id' => Yii::t('app', 'Lp Direccion ID'),
-            't_urban_barr' => Yii::t('app', 'T Urban Barr'),
-            'urbarn_barrio' => Yii::t('app', 'Urbarn Barrio'),
-            't_calle_av' => Yii::t('app', 'T Calle Av'),
-            'calle_av' => Yii::t('app', 'Calle Av'),
-            'tipovivienda' => Yii::t('app', 'Tipovivienda'),
-            'datovivienda' => Yii::t('app', 'Datovivienda'),
-            'piso_numero' => Yii::t('app', 'Piso Numero'),
-            'oficin_apart' => Yii::t('app', 'Oficin Apart'),
-            'lf_direccion_ptoreferencia' => Yii::t('app', 'Lf Direccion Ptoreferencia'),
+            't_urban_barr' => Yii::t('app', 'Tipo'),
+            'urbarn_barrio' => Yii::t('app', 'Dirección'),
+            't_calle_av' => Yii::t('app', 'Tipo'),
+            'calle_av' => Yii::t('app', 'Dirección'),
+            'tipovivienda' => Yii::t('app', 'Tipo'),
+            'datovivienda' => Yii::t('app', 'Vivienda'),
+            'piso_numero' => Yii::t('app', 'Nº Piso'),
+            'oficin_apart' => Yii::t('app', 'Oficina/Apartamento'),
+            'lf_direccion_ptoreferencia' => Yii::t('app', 'Pto. de Referencia'),
             'referencia' => Yii::t('app', 'Referencia'),
-            'codpostal' => Yii::t('app', 'Codpostal'),
+            'codpostal' => Yii::t('app', 'Código Postal'),
             'claveforeana' => Yii::t('app', 'Claveforeana'),
             'tabla_referen' => Yii::t('app', 'Tabla Referen'),
-            'lf_direccion_parroquia' => Yii::t('app', 'Lf Direccion Parroquia'),
+            'lf_direccion_parroquia' => Yii::t('app', 'Parroquia'),
             'visibilidad' => Yii::t('app', 'Visibilidad'),
         ];
     }

@@ -29,6 +29,8 @@ use yii\web\Request;
  * values. Defaults to 0, meaning  all available levels. Note that the type of this property differs in getter
  * and setter. See [[getLevels()]] and [[setLevels()]] for details.
  *
+ * For more details and usage information on Target, see the [guide article on logging & targets](guide:runtime-logging).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -168,7 +170,7 @@ abstract class Target extends Component
      * ```
      *
      * @param array|integer $levels message levels that this target is interested in.
-     * @throws InvalidConfigException if an unknown level name is given
+     * @throws InvalidConfigException if $levels value is not correct.
      */
     public function setLevels($levels)
     {
@@ -189,6 +191,12 @@ abstract class Target extends Component
                 }
             }
         } else {
+            $bitmapValues = array_reduce($levelMap, function ($carry, $item) {
+                return $carry | $item;
+            });
+            if (!($bitmapValues & $levels) && $levels !== 0) {
+                throw new InvalidConfigException("Incorrect $levels value");
+            }
             $this->_levels = $levels;
         }
     }

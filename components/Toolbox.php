@@ -36,7 +36,7 @@ class Toolbox extends Component {
         $municipio = Municipios::find()->where(['lp_municipio_id' => $parroquia->lf_parroquia_municipio])->one();
         $estado = Estados::find()->where(['lp_estado_id' => $municipio->lf_municipio_estado])->one();
         $pais = Paises::find()->where(['lp_pais_id' => $estado->lf_estado_pais])->one();
-        return [$pais, $estado, $municipio,$parroquia];
+        return [$pais, $estado, $municipio, $parroquia];
 
     }
 
@@ -94,6 +94,34 @@ class Toolbox extends Component {
 
 
         ;
+
+    }
+
+    public function randomText($length, $tabla, $campo_primario) {
+        
+
+        for ($i = 0; $i < 1; $i++) {
+            $KEY = $this->generadorkey($length);
+            $rows = (new \yii\db\Query())
+                    ->select()
+                    ->from($tabla)
+                    ->where([$campo_primario => $KEY])
+                    ->all();
+            
+            if (!$rows)
+                return $KEY;
+        }
+
+    }
+
+    public function generadorkey($length) {
+        $pattern = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-_@#$";
+
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $pattern{rand(0, 40)};
+        }
+
+        return $key;
 
     }
 

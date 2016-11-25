@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <?= Html::encode($this->title) ?>
-                <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-                <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+                <?php // echo Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+                <?php // echo Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
 
             </div>
             <div class="panel-body">
@@ -90,7 +90,38 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 <?php } ?>
 
+<script>
+    var map;
+    var mapDiv = document.getElementById('map');
+    var myLatlng = {lat: -25.363, lng: 131.044};
+    var markers = [];
 
+    function initMap() {
+        if ($('#direcciones-lat').val() == '' && $('#direcciones-lng').val() == '') {
+            map = new google.maps.Map(mapDiv, {
+                center: {lat: 10.5, lng: -66.91667},
+                zoom: 8
+            });
+        } else {
+            map = new google.maps.Map(mapDiv, {
+                center: {lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())},
+                zoom: 8
+            });
+
+            addMarker({lat: parseFloat($('#direcciones-lat').val()), lng: parseFloat($('#direcciones-lng').val())});
+        }
+
+        map.addListener('click', function (event) {
+            $('#direcciones-lat').val(event.latLng.lat());
+            $('#direcciones-lng').val(event.latLng.lng());
+//            alert(event.latLng.lat() + "--" + event.latLng.lng());
+            clearMarkers();
+            addMarker(event.latLng);
+
+        });
+    }
+
+</script>
 
 
 

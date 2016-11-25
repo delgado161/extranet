@@ -96,3 +96,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+
+<?php 
+
+    $xml_lang = file_get_contents('http://199.16.239.14/administrador/uploads/varios/es.xml');
+    
+//    var_dump(unserialize('a:1:{s:8:"pa_color";a:6:{s:4:"name";s:8:"pa_color";s:5:"value";s:0:"";s:8:"position";s:1:"0";s:10:"is_visible";i:1;s:12:"is_variation";i:0;s:11:"is_taxonomy";i:1;}}'));
+
+?>

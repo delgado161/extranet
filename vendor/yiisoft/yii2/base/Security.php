@@ -23,6 +23,8 @@ use Yii;
  * > Note: this class requires 'OpenSSL' PHP extension for random key/string generation on Windows and
  * for encryption/decryption on all platforms. For the highest security level PHP version >= 5.5.0 is recommended.
  *
+ * For more details and usage information on Security, see the [guide article on security](guide:security-overview).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Tom Worster <fsb@thefsb.org>
  * @author Klimov Paul <klimov.paul@gmail.com>
@@ -143,7 +145,7 @@ class Security extends Component
     }
 
     /**
-     * Verifies and decrypts data encrypted with [[encryptByPassword()]].
+     * Verifies and decrypts data encrypted with [[encryptByKey()]].
      * @param string $data the encrypted data to decrypt
      * @param string $inputKey the input to use for encryption and authentication
      * @param string $info optional context and application specific information, see [[hkdf()]]

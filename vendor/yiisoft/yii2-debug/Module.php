@@ -10,6 +10,8 @@ namespace yii\debug;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\helpers\Json;
+use yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
@@ -164,6 +166,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         // delay attaching event handler to the view component after it is fully configured
         $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
             $app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
+            $app->getResponse()->on(Response::EVENT_AFTER_PREPARE, [$this, 'setDebugHeaders']);
         });
 
         $app->getUrlManager()->addRules([
@@ -197,6 +200,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
         // do not display debug toolbar when in debug view mode
         Yii::$app->getView()->off(View::EVENT_END_BODY, [$this, 'renderToolbar']);
+        Yii::$app->getResponse()->off(Response::EVENT_AFTER_PREPARE, [$this, 'setDebugHeaders']);
 
         if ($this->checkAccess()) {
             $this->resetGlobalSettings();
@@ -210,11 +214,44 @@ class Module extends \yii\base\Module implements BootstrapInterface
     }
 
     /**
+     * Setting headers to transfer debug data in AJAX requests
+     * without interfering with the request itself.
+     *
+     * @param \yii\base\Event $event
+     * @since 2.0.7
+     */
+    public function setDebugHeaders($event)
+    {
+        if (!$this->checkAccess() || !Yii::$app->getRequest()->getIsAjax()) {
+            return;
+        }
+        $url = Url::toRoute(['/' . $this->id . '/default/view',
+            'tag' => $this->logTarget->tag,
+        ]);
+        $event->sender->getHeaders()
+            ->set('X-Debug-Tag', $this->logTarget->tag)
+            ->set('X-Debug-Duration', number_format((microtime(true) - YII_BEGIN_TIME) * 1000 + 1))
+            ->set('X-Debug-Link', $url);
+    }
+
+    /**
      * Resets potentially incompatible global settings done in app config.
      */
     protected function resetGlobalSettings()
     {
         Yii::$app->assetManager->bundles = [];
+    }
+
+    /**
+     * Gets the Toolbars html
+     * @since 2.0.7
+     */
+    public function getToolbarHtml()
+    {
+        $url = Url::toRoute(['/' . $this->id . '/default/toolbar',
+            'tag' => $this->logTarget->tag,
+        ]);
+        return '<div id="yii-debug-toolbar" data-url="' . Html::encode($url) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
     }
 
     /**
@@ -227,12 +264,10 @@ class Module extends \yii\base\Module implements BootstrapInterface
         if (!$this->checkAccess() || Yii::$app->getRequest()->getIsAjax()) {
             return;
         }
-        $url = Url::toRoute(['/' . $this->id . '/default/toolbar',
-            'tag' => $this->logTarget->tag,
-        ]);
-        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($url) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
+
         /* @var $view View */
         $view = $event->sender;
+        echo $view->renderDynamic('return Yii::$app->getModule("debug")->getToolbarHtml();');
 
         // echo is used in order to support cases where asset manager is not available
         echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
@@ -276,5 +311,19 @@ class Module extends \yii\base\Module implements BootstrapInterface
             'mail' => ['class' => 'yii\debug\panels\MailPanel'],
             'timeline' => ['class' => 'yii\debug\panels\TimelinePanel']
         ];
+    }
+
+    /**
+     * @inheritdoc
+     * @since 2.0.7
+     */
+    protected function defaultVersion()
+    {
+        $packageInfo = Json::decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'composer.json'));
+        $extensionName = $packageInfo['name'];
+        if (isset(Yii::$app->extensions[$extensionName])) {
+            return Yii::$app->extensions[$extensionName]['version'];
+        }
+        return parent::defaultVersion();
     }
 }

@@ -107,6 +107,8 @@ class BaseArrayHelper
      * type and are having the same key.
      * For integer-keyed elements, the elements from the latter array will
      * be appended to the former array.
+     * You can use [[UnsetArrayValue]] object to unset value from previous array or
+     * [[ReplaceArrayValue]] to force replace former value instead of recursive merging.
      * @param array $a array to be merged to
      * @param array $b array to be merged from. You can specify additional
      * arrays via third argument, fourth argument etc.
@@ -119,7 +121,11 @@ class BaseArrayHelper
         while (!empty($args)) {
             $next = array_shift($args);
             foreach ($next as $k => $v) {
-                if (is_int($k)) {
+                if ($v instanceof UnsetArrayValue) {
+                    unset($res[$k]);
+                } elseif ($v instanceof ReplaceArrayValue) {
+                    $res[$k] = $v->value;
+                } elseif (is_int($k)) {
                     if (isset($res[$k])) {
                         $res[] = $v;
                     } else {
@@ -200,7 +206,7 @@ class BaseArrayHelper
 
         if (is_object($array)) {
             // this is expected to fail if the property does not exist, or __get() is not implemented
-            // it is not reliably possible to check whether a property is accessable beforehand
+            // it is not reliably possible to check whether a property is accessible beforehand
             return $array->$key;
         } elseif (is_array($array)) {
             return (isset($array[$key]) || array_key_exists($key, $array)) ? $array[$key] : $default;
@@ -238,6 +244,38 @@ class BaseArrayHelper
         }
 
         return $default;
+    }
+
+    /**
+     * Removes items with matching values from the array and returns the removed items.
+     *
+     * Example,
+     *
+     * ```php
+     * $array = ['Bob' => 'Dylan', 'Michael' => 'Jackson', 'Mick' => 'Jagger', 'Janet' => 'Jackson'];
+     * $removed = \yii\helpers\ArrayHelper::removeValue($array, 'Jackson');
+     * // result:
+     * // $array = ['Bob' => 'Dylan', 'Mick' => 'Jagger'];
+     * // $removed = ['Michael' => 'Jackson', 'Janet' => 'Jackson'];
+     * ```
+     *
+     * @param array $array the array where to look the value from
+     * @param string $value the value to remove from the array
+     * @return array the items that were removed from the array
+     * @since 2.0.11
+     */
+    public static function removeValue(&$array, $value)
+    {
+        $result = [];
+        if (is_array($array)) {
+            foreach ($array as $key => $val) {
+                if ($val === $value) {
+                    $result[$key] = $val;
+                    unset($array[$key]);
+                }
+            }
+        }
+        return $result;
     }
 
     /**
@@ -486,7 +524,9 @@ class BaseArrayHelper
     public static function keyExists($key, $array, $caseSensitive = true)
     {
         if ($caseSensitive) {
-            return array_key_exists($key, $array);
+            // Function `isset` checks key faster but skips `null`, `array_key_exists` handles this case
+            // http://php.net/manual/en/function.array-key-exists.php#107786
+            return isset($array[$key]) || array_key_exists($key, $array);
         } else {
             foreach (array_keys($array) as $k) {
                 if (strcasecmp($key, $k) === 0) {
@@ -760,6 +800,7 @@ class BaseArrayHelper
      * Filters array according to rules specified.
      *
      * For example:
+     *
      * ```php
      * $array = [
      *     'A' => [1, 2],
@@ -782,7 +823,6 @@ class BaseArrayHelper
      * //     'A' => [1, 2],
      * //     'B' => ['C' => 1],
      * // ]
-     * ```
      *
      * $result = \yii\helpers\ArrayHelper::filter($array, ['B', '!B.C']);
      * // $result will be:

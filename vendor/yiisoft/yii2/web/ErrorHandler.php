@@ -22,6 +22,8 @@ use yii\helpers\VarDumper;
  * ErrorHandler is configured as an application component in [[\yii\base\Application]] by default.
  * You can access that instance via `Yii::$app->errorHandler`.
  *
+ * For more details and usage information on ErrorHandler, see the [guide article on handling errors](guide:runtime-handling-errors).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Timur Ruziev <resurtm@gmail.com>
  * @since 2.0
@@ -37,9 +39,9 @@ class ErrorHandler extends \yii\base\ErrorHandler
      */
     public $maxTraceSourceLines = 13;
     /**
-     * @var string the route (e.g. 'site/error') to the controller action that will be used
+     * @var string the route (e.g. `site/error`) to the controller action that will be used
      * to display external errors. Inside the action, it can retrieve the error information
-     * using `Yii::$app->errorHandler->exception. This property defaults to null, meaning ErrorHandler
+     * using `Yii::$app->errorHandler->exception`. This property defaults to null, meaning ErrorHandler
      * will handle the error display.
      */
     public $errorAction;
@@ -190,9 +192,19 @@ class ErrorHandler extends \yii\base\ErrorHandler
             $text = $this->htmlEncode($class);
         }
 
-        $url = $this->getTypeUrl($class, $method);
+        $url = null;
 
-        if (!$url) {
+        $shouldGenerateLink = true;
+        if ($method !== null) {
+            $reflection = new \ReflectionMethod($class, $method);
+            $shouldGenerateLink = $reflection->isPublic() || $reflection->isProtected();
+        }
+
+        if ($shouldGenerateLink) {
+            $url = $this->getTypeUrl($class, $method);
+        }
+
+        if ($url === null) {
             return $text;
         }
 
@@ -423,9 +435,8 @@ class ErrorHandler extends \yii\base\ErrorHandler
                 $args[$key] = "<span class=\"number\">$key</span> => $args[$key]";
             }
         }
-        $out = implode(', ', $args);
 
-        return $out;
+        return implode(', ', $args);
     }
 
     /**

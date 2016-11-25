@@ -118,6 +118,10 @@
 
             var pos = settings.filterUrl.indexOf('?');
             var url = pos < 0 ? settings.filterUrl : settings.filterUrl.substring(0, pos);
+            var hashPos = settings.filterUrl.indexOf('#');
+            if (hashPos >= 0) {
+                url += settings.filterUrl.substring(pos);
+            }
 
             $grid.find('form.gridview-filter-form').remove();
             var $form = $('<form/>', {
@@ -147,7 +151,7 @@
         setSelectionColumn: function (options) {
             var $grid = $(this);
             var id = $(this).attr('id');
-            if (gridData.id === undefined) {
+            if (gridData[id] === undefined) {
                 gridData[id] = {};
             }
             gridData[id].selectionColumn = options.name;

@@ -33,6 +33,8 @@ use yii\di\Instance;
  * information showing the method parameters and execution time, which may be useful when
  * applying migrations.
  *
+ * For more details and usage information on Migration, see the [guide article on Migration](guide:db-migrations).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -69,6 +71,7 @@ class Migration extends Component implements MigrationInterface
         parent::init();
         $this->db = Instance::ensure($this->db, Connection::className());
         $this->db->getSchema()->refresh();
+        $this->db->enableSlaves = false;
     }
 
     /**
@@ -263,7 +266,7 @@ class Migration extends Component implements MigrationInterface
                 $this->db->createCommand()->addCommentOnColumn($table, $column, $type->comment)->execute();
             }
         }
-        echo " done (time: " . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+        echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
     }
 
     /**
@@ -452,7 +455,7 @@ class Migration extends Component implements MigrationInterface
      */
     public function dropIndex($name, $table)
     {
-        echo "    > drop index $name ...";
+        echo "    > drop index $name on $table ...";
         $time = microtime(true);
         $this->db->createCommand()->dropIndex($name, $table)->execute();
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
@@ -464,7 +467,6 @@ class Migration extends Component implements MigrationInterface
      * @param string $table the table whose column is to be commented. The table name will be properly quoted by the method.
      * @param string $column the name of the column to be commented. The column name will be properly quoted by the method.
      * @param string $comment the text of the comment to be added. The comment will be properly quoted by the method.
-     * @return $this the command object itself
      * @since 2.0.8
      */
     public function addCommentOnColumn($table, $column, $comment)
@@ -480,7 +482,6 @@ class Migration extends Component implements MigrationInterface
      *
      * @param string $table the table whose column is to be commented. The table name will be properly quoted by the method.
      * @param string $comment the text of the comment to be added. The comment will be properly quoted by the method.
-     * @return $this the command object itself
      * @since 2.0.8
      */
     public function addCommentOnTable($table, $comment)
@@ -496,7 +497,6 @@ class Migration extends Component implements MigrationInterface
      *
      * @param string $table the table whose column is to be commented. The table name will be properly quoted by the method.
      * @param string $column the name of the column to be commented. The column name will be properly quoted by the method.
-     * @return $this the command object itself
      * @since 2.0.8
      */
     public function dropCommentFromColumn($table, $column)
@@ -511,7 +511,6 @@ class Migration extends Component implements MigrationInterface
      * Builds a SQL statement for dropping comment from table
      *
      * @param string $table the table whose column is to be commented. The table name will be properly quoted by the method.
-     * @return $this the command object itself
      * @since 2.0.8
      */
     public function dropCommentFromTable($table)

@@ -1,5 +1,5 @@
 /*!
- * bootstrap-fileinput v4.3.5
+ * bootstrap-fileinput v4.3.6
  * http://plugins.krajee.com/file-input
  *
  * Author: Kartik Visweswaran
@@ -222,20 +222,24 @@
             }
             previewCache.data[id] = data;
         },
-        unset: function (id, index) {
-            var chk = previewCache.count(id);
+        unset: function (obj, index) {
+            var chk = previewCache.count(obj.id);
             if (!chk) {
                 return;
             }
             if (chk === 1) {
-                previewCache.data[id].content = [];
-                previewCache.data[id].config = [];
-                previewCache.data[id].tags = [];
+                previewCache.data[obj.id].content = [];
+                previewCache.data[obj.id].config = [];
+                previewCache.data[obj.id].tags = [];
+                obj.initialPreview = [];
+                obj.initialPreviewConfig = [];
+                obj.initialPreviewThumbTags = [];
                 return;
             }
-            previewCache.data[id].content[index] = null;
-            previewCache.data[id].config[index] = null;
-            previewCache.data[id].tags[index] = null;
+
+            previewCache.data[obj.id].content[index] = null;
+            previewCache.data[obj.id].config[index] = null;
+            previewCache.data[obj.id].tags[index] = null;
         },
         out: function (id) {
             var html = '', data = previewCache.data[id], caption, len = previewCache.count(id, true);
@@ -456,7 +460,7 @@
         other: {width: "160px", height: "160px"}
     };
     defaultPreviewZoomSettings = {
-        image: {width: "100%", height: "100%"},
+        image: {width: "auto", height: "auto", 'max-width': "100%",'max-height': "100%"},
         html: {width: "100%", height: "100%", 'min-height': "480px"},
         text: {width: "100%", height: "100%", 'min-height': "480px"},
         video: {width: "auto", height: "100%", 'max-width': "100%"},
@@ -1061,6 +1065,15 @@
                     self.initialPreview = moveArray(self.initialPreview, oldIndex, newIndex);
                     self.initialPreviewConfig = moveArray(self.initialPreviewConfig, oldIndex, newIndex);
                     previewCache.init(self);
+                    for(var i = 0; i < self.initialPreviewConfig.length; i++) {
+                        if(self.initialPreviewConfig[i] !== null) {
+                            var key = self.initialPreviewConfig[i].key;
+                            var $frame = $(".kv-file-remove[data-key='" + key + "']");
+                            $frame = $frame.closest('.file-preview-frame');
+                            $frame.attr('data-fileindex', 'init_'+i);
+                            $frame.data('fileindex', 'init_'+i);
+                        }
+                    }
                     self._raise('filesorted', {
                         previewId: $(e.item).attr('id'),
                         'oldIndex': oldIndex,
@@ -1386,7 +1399,9 @@
                     success: function (data, textStatus, jqXHR) {
                         var n, cap;
                         if (isEmpty(data) || isEmpty(data.error)) {
-                            previewCache.unset(self.id, index);
+                            previewCache.init(self);
+                            index = parseInt(($frame.data('fileindex')).replace('init_', ''));
+                            previewCache.unset(self, index);
                             n = previewCache.count(self.id);
                             cap = n > 0 ? self._getMsgSelected(n) : '';
                             self._raise('filedeleted', [vKey, jqXHR, extraData]);
@@ -2057,11 +2072,11 @@
             this.$captionContainer.find('.kv-caption-icon').show();
         },
         _getSize: function (bytes) {
-            var size = parseFloat(bytes);
-            if (bytes === null || isNaN(size)) {
-                return '';
+            var self = this, size = parseFloat(bytes);
+            if (!bytes || !size || isNaN(bytes) || isNaN(size)) {
+                return self._getLayoutTemplate('size').replace('{sizeText}', '0.00 KB');
             }
-            var self = this, i, func = self.fileSizeGetter, sizes, out;
+            var  i, func = self.fileSizeGetter, sizes, out;
             if (typeof func === 'function') {
                 out = func(bytes);
             } else {
@@ -2152,10 +2167,10 @@
                     self._previewDefault(file, previewId, true);
                     if (self.isUploadable) {
                         self.addToStack(undefined);
+                        setTimeout(function () {
+                            readFile(index + 1);
+                        }, 100);
                     }
-                    setTimeout(function () {
-                        readFile(index + 1);
-                    }, 100);
                     self._initFileActions();
                     if (self.removeFromPreviewOnError) {
                         $('#' + previewId).remove();
@@ -2186,19 +2201,34 @@
                     $status.html('');
                     return;
                 }
-                var node = ctr + i, previewId = previewInitId + "-" + node, isText, isImage, file = files[i],
+                var node = ctr + i, previewId = previewInitId + "-" + node, isText, isImage, file = files[i], fSizeKB,
                     caption = file.name ? self.slug(file.name) : '', fileSize = (file.size || 0) / 1000, checkFile,
                     fileExtExpr = '', previewData = objUrl.createObjectURL(file), fileCount = 0, j, msg, typ, chk,
                     fileTypes = self.allowedFileTypes, strTypes = isEmpty(fileTypes) ? '' : fileTypes.join(', '),
                     fileExt = self.allowedFileExtensions, strExt = isEmpty(fileExt) ? '' : fileExt.join(', ');
+
+                if (caption === false) {
+                    readFile(i + 1);
+                    return;
+                }
+                if (caption.length === 0) {
+                    msg = self.msgInvalidFileName.replace('{name}', htmlEncode(file.name));
+                    self.isError = throwError(msg, file, previewId, i);
+                    return;
+                }
                 if (!isEmpty(fileExt)) {
                     fileExtExpr = new RegExp('\\.(' + fileExt.join('|') + ')$', 'i');
                 }
-                fileSize = fileSize.toFixed(2);
+                fSizeKB = fileSize.toFixed(2);
                 if (self.maxFileSize > 0 && fileSize > self.maxFileSize) {
-                    msg = self.msgSizeTooLarge.replace('{name}', caption)
-                        .replace('{size}', fileSize)
+                    msg = self.msgSizeTooLarge.replace('{name}', caption).replace('{size}', fSizeKB)
                         .replace('{maxSize}', self.maxFileSize);
+                    self.isError = throwError(msg, file, previewId, i);
+                    return;
+                }
+                if (self.minFileSize !== null && fileSize <= getNum(self.minFileSize)) {
+                    msg = self.msgSizeTooSmall.replace('{name}', caption).replace('{size}', fSizeKB)
+                        .replace('{minSize}', self.minFileSize);
                     self.isError = throwError(msg, file, previewId, i);
                     return;
                 }
@@ -2219,8 +2249,7 @@
                     chk = compare(caption, fileExtExpr);
                     fileCount += isEmpty(chk) ? 0 : chk.length;
                     if (fileCount === 0) {
-                        msg = self.msgInvalidFileExtension.replace('{name}', caption).replace('{extensions}',
-                            strExt);
+                        msg = self.msgInvalidFileExtension.replace('{name}', caption).replace('{extensions}', strExt);
                         self.isError = throwError(msg, file, previewId, i);
                         return;
                     }
@@ -2477,6 +2506,7 @@
                 return;
             }
             errFunc = self.isUploadable ? self._showUploadError : self._showError;
+            var counter = {val: 0};
             for (i = 0; i < self.loadedImages.length; i++) {
                 config = self.loadedImages[i];
                 $img = config.img;
@@ -2484,22 +2514,30 @@
                 pid = config.pid;
                 ind = config.ind;
                 params = {id: pid, 'index': ind};
-                if (!self._getResizedImage($img[0], config.typ, pid, ind)) {
+                if (!self._getResizedImage($img[0], config.typ, pid, ind, counter, self.loadedImages.length)) {
                     errFunc(self.msgImageResizeError, params, 'fileimageresizeerror');
                     self._setPreviewError($thumb, ind);
                 }
             }
-            self._raise('fileimagesresized');
         },
-        _getResizedImage: function (image, type, pid, ind) {
+        _getResizedImage: function (image, type, pid, ind, counter, num_imgs) {
             var self = this, width = image.naturalWidth, height = image.naturalHeight, ratio = 1,
                 maxWidth = self.maxImageWidth || width, maxHeight = self.maxImageHeight || height,
                 isValidImage = (width && height), chkWidth, chkHeight,
                 canvas = self.imageCanvas, context = self.imageCanvasContext;
             if (!isValidImage) {
+                counter.val++;
+                if (counter.val === num_imgs) {
+                    self._raise('fileimagesresized');
+                }
                 return false;
             }
             if (width === maxWidth && height === maxHeight) {
+                self._raise('fileimageresized', [pid, ind]);
+                counter.val++;
+                if (counter.val === num_imgs) {
+                    self._raise('fileimagesresized');
+                }
                 return true;
             }
             type = type || self.resizeDefaultImageType;
@@ -2518,12 +2556,20 @@
             try {
                 context.drawImage(image, 0, 0, width, height);
                 canvas.toBlob(function (blob) {
-                    self._raise('fileimageresized', [pid, ind]);
                     self.filestack[ind] = blob;
+                    self._raise('fileimageresized', [pid, ind]);
+                    counter.val++;
+                    if (counter.val === num_imgs) {
+                        self._raise('fileimagesresized', [undefined, undefined]);
+                    }
                 }, type, self.resizeQuality);
                 return true;
             }
             catch (err) {
+                counter.val++;
+                if (counter.val === num_imgs) {
+                    self._raise('fileimagesresized', [undefined, undefined]);
+                }
                 return false;
             }
         },
@@ -3192,6 +3238,7 @@
         resizePreference: 'width',
         resizeQuality: 0.92,
         resizeDefaultImageType: 'image/jpeg',
+        minFileSize: 0,
         maxFileSize: 0,
         maxFilePreviewSize: 25600, // 25 MB
         minFileCount: 0,
@@ -3238,6 +3285,7 @@
         msgNoFilesSelected: 'No files selected',
         msgCancelled: 'Cancelled',
         msgZoomModalHeading: 'Detailed Preview',
+        msgSizeTooSmall: 'File "{name}" (<b>{size} KB</b>) is too small and must be larger than <b>{minSize} KB</b>.',
         msgSizeTooLarge: 'File "{name}" (<b>{size} KB</b>) exceeds maximum allowed upload size of <b>{maxSize} KB</b>.',
         msgFilesTooLess: 'You must select at least <b>{n}</b> {files} to upload.',
         msgFilesTooMany: 'Number of files selected for upload <b>({n})</b> exceeds maximum allowed limit of <b>{m}</b>.',
@@ -3246,6 +3294,7 @@
         msgFileNotReadable: 'File "{name}" is not readable.',
         msgFilePreviewAborted: 'File preview aborted for "{name}".',
         msgFilePreviewError: 'An error occurred while reading the file "{name}".',
+        msgInvalidFileName: 'Invalid or unsupported characters in file name "{name}".',
         msgInvalidFileType: 'Invalid type for file "{name}". Only "{types}" files are supported.',
         msgInvalidFileExtension: 'Invalid extension for file "{name}". Only "{extensions}" files are supported.',
         msgUploadAborted: 'The file upload was aborted',

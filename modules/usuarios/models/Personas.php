@@ -73,8 +73,10 @@ class Personas extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['fk_cargo', 'fk_documento', 'n_documento', 'nombre', 'apellido', 'email_personal', 'email_corporativo', 'telefono', 'celular', 'fl_nacimiento', 'genero',], 'required',
-                'on' => 'create'],
+            [['fk_cargo', 'fk_documento', 'n_documento', 'nombre', 'apellido', 'email_personal', 'email_corporativo',
+            'telefono', 'celular', 'fl_nacimiento', 'genero'], 'required',
+            ],
+            ['n_documento', 'validatePersona'],
             [['fk_cargo', 'fk_documento', 'status', 'n_documento'], 'integer'],
             [['fl_nacimiento', 'crop_info'], 'safe'],
             [['observaciones', 'crop_info'], 'string'],
@@ -99,25 +101,25 @@ class Personas extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id_persona' => Yii::t('app', 'Id Persona'),
-            'fk_cargo' => Yii::t('app', 'Fk Cargo'),
+            'fk_cargo' => Yii::t('app', 'Cargo'),
             'fk_documento' => Yii::t('app', 'Documento'),
-            'n_documento' => Yii::t('app', 'N Documento'),
+            'n_documento' => Yii::t('app', 'Nº Documento'),
             'nombre' => Yii::t('app', 'Nombre'),
-            's_nombre' => Yii::t('app', 'S Nombre'),
+            's_nombre' => Yii::t('app', 'Segundo Nombre'),
             'apellido' => Yii::t('app', 'Apellido'),
-            's_apellido' => Yii::t('app', 'S Apellido'),
+            's_apellido' => Yii::t('app', 'Segundo Apellido'),
             'email_personal' => Yii::t('app', 'Email Personal'),
             'email_corporativo' => Yii::t('app', 'Email Corporativo'),
-            'telefono' => Yii::t('app', 'Telefono'),
-            'telefono_2' => Yii::t('app', 'Telefono 2'),
+            'telefono' => Yii::t('app', 'Teléfono'),
+            'telefono_2' => Yii::t('app', 'Teléfono 2'),
             'celular' => Yii::t('app', 'Celular'),
             'fax' => Yii::t('app', 'Fax'),
             'foto' => Yii::t('app', 'Foto'),
             'crop_info' => Yii::t('app', 'crop_info'),
-            'fl_nacimiento' => Yii::t('app', 'Fl Nacimiento'),
-            'genero' => Yii::t('app', 'Genero'),
+            'fl_nacimiento' => Yii::t('app', 'Fecha de Nacimiento'),
+            'genero' => Yii::t('app', 'Género'),
             'observaciones' => Yii::t('app', 'Observaciones'),
-            'status' => Yii::t('app', 'Status'),
+            'status' => Yii::t('app', 'Estatus'),
         ];
 
     }
@@ -191,52 +193,70 @@ class Personas extends \yii\db\ActiveRecord {
 
     public function img_new() {
 
-        // open image
-        $image = Image::getImagine()->open($this->foto->tempName);
+        if ($this->foto != 'ND.jpg') {
 
-        // rendering information about crop of ONE option 
-        $cropInfo = Json::decode($this->crop_info)[0];
-        $cropInfo['dWidth'] = (int) $cropInfo['dw']; //new width image
-        $cropInfo['dHeight'] = (int) $cropInfo['dh']; //new height image
-        $cropInfo['x'] = abs($cropInfo['x']);
-        $cropInfo['y'] = abs($cropInfo['y']);
-        // Properties bolow we don't use in this example
-        //$cropInfo['ratio'] = $cropInfo['ratio'] == 0 ? 1.0 : (float)$cropInfo['ratio']; //ratio image. 
-        //$cropInfo['width'] = (int)$cropInfo['width']; //width of cropped image
-        //$cropInfo['height'] = (int)$cropInfo['height']; //height of cropped image
-        //$cropInfo['sWidth'] = (int)$cropInfo['sWidth']; //width of source image
-        //$cropInfo['sHeight'] = (int)$cropInfo['sHeight']; //height of source image
-        //delete old images
-        $oldImages = FileHelper::findFiles(Yii::getAlias('uploads/personas/image'), [
-                    'only' => [
-                        $this->id_persona . '.*',
-                        'thumb_' . $this->id_persona . '.*',
-                    ],
-        ]);
-        for ($i = 0; $i != count($oldImages); $i++) {
-            @unlink($oldImages[$i]);
+// open image
+            $image = Image::getImagine()->open($this->foto->tempName);
+
+// rendering information about crop of ONE option 
+            $cropInfo = Json::decode($this->crop_info)[0];
+            $cropInfo['dWidth'] = (int) $cropInfo['dw']; //new width image
+            $cropInfo['dHeight'] = (int) $cropInfo['dh']; //new height image
+            $cropInfo['x'] = abs($cropInfo['x']);
+            $cropInfo['y'] = abs($cropInfo['y']);
+// Properties bolow we don't use in this example
+//$cropInfo['ratio'] = $cropInfo['ratio'] == 0 ? 1.0 : (float)$cropInfo['ratio']; //ratio image. 
+//$cropInfo['width'] = (int)$cropInfo['width']; //width of cropped image
+//$cropInfo['height'] = (int)$cropInfo['height']; //height of cropped image
+//$cropInfo['sWidth'] = (int)$cropInfo['sWidth']; //width of source image
+//$cropInfo['sHeight'] = (int)$cropInfo['sHeight']; //height of source image
+//delete old images
+            $oldImages = FileHelper::findFiles(Yii::getAlias('uploads/personas/image'), [
+                        'only' => [
+                            $this->id_persona . '.*',
+                            'thumb_' . $this->id_persona . '.*',
+                        ],
+            ]);
+            for ($i = 0; $i != count($oldImages); $i++) {
+                @unlink($oldImages[$i]);
+            }
+
+//saving thumbnail
+            $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
+            $cropSizeThumb = new Box(200, 200); //frame size of crop
+            $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
+            $pathThumbImage = Yii::getAlias('uploads/personas/image')
+                    . '/thumb_'
+                    . $this->id_persona
+                    . '.'
+                    . $this->foto->getExtension();
+
+            $image->resize($newSizeThumb)
+                    ->crop($cropPointThumb, $cropSizeThumb)
+                    ->save($pathThumbImage, ['quality' => 100]);
+
+//saving original
+            $this->foto->saveAs(
+                    Yii::getAlias('uploads/personas/image')
+                    . '/'
+                    . $this->foto
+            );
         }
 
-        //saving thumbnail
-        $newSizeThumb = new Box($cropInfo['dWidth'], $cropInfo['dHeight']);
-        $cropSizeThumb = new Box(200, 200); //frame size of crop
-        $cropPointThumb = new Point($cropInfo['x'], $cropInfo['y']);
-        $pathThumbImage = Yii::getAlias('uploads/personas/image')
-                . '/thumb_'
-                . $this->id_persona
-                . '.'
-                . $this->foto->getExtension();
+    }
 
-        $image->resize($newSizeThumb)
-                ->crop($cropPointThumb, $cropSizeThumb)
-                ->save($pathThumbImage, ['quality' => 100]);
+    public function validatePersona($attribute, $params) {
 
-        //saving original
-        $this->foto->saveAs(
-                Yii::getAlias('uploads/personas/image')
-                . '/'
-                . $this->foto
-        );
+        if (!empty($this->id_persona)) {
+            $persona_update = Personas::findOne($this->id_persona);
+        }
+
+        $persona = Personas::find()->where(['n_documento' => $this->n_documento, 'fk_documento' => $this->fk_documento]);
+
+        if ($persona && $persona_update->n_documento!= $this->n_documento) {
+            $this->addError('n_documento', 'Persona ya registrada');
+              $this->addError('fk_documento', '');
+        }
 
     }
 

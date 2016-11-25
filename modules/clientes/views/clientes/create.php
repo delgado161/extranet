@@ -10,6 +10,9 @@ use kartik\widgets\ActiveForm;
 $this->title = Yii::t('app', 'Crear Clientes');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clientes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+var_dump($model->errors);
+
 ?>
 
 <div class="personas-create panel_up"  >
@@ -17,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel panel-default">
         <div class="panel-heading">
             <?= Html::encode($this->title) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
-            <?= Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+            <?php // echo Html::a(Yii::t('app', '<i class="icon-joker_minimizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear', 'style' => 'margin-left:10px;color:white;font-size:22px;    margin-top: 4px;']) ?>
+            <?php // echo Html::a(Yii::t('app', '<i class="icon-joker_maximizar" aria-hidden="true"></i>'), null, ['class' => 'btn_crear btn_maximizar', 'style' => 'margin-left:40px;color:white;font-size:22px;    margin-top: 4px;']) ?>
 
         </div>
         <div class="panel-body">
@@ -58,10 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $this->render('_direccion', ['model_direcciones' => $model_direcciones, 'form' => $form]) ?>
                     </div>
                     <div class="bhoechie-tab-content" >
-                        <?= $this->render('_contactos', ['model' => $model, 'form' => $form]) ?>
+                        <?= $this->render('_contactos', ['model' => $model, 'form' => $form,'Lista_contactos'=>$Lista_contactos]) ?>
                     </div>
                      <div class="bhoechie-tab-content" >
-                        <?= $this->render('_referencia', ['model' => $model, 'form' => $form]) ?>
+                       <?= $this->render('_referencia', ['model' => $model, 'form' => $form]) ?>
                     </div>
                 </div>
             </div>

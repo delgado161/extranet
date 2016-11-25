@@ -30,6 +30,8 @@ use yii\di\Instance;
  * You may change the names of the tables used to store the authorization and rule data by setting [[itemTable]],
  * [[itemChildTable]], [[assignmentTable]] and [[ruleTable]].
  *
+ * For more details and usage information on DbManager, see the [guide article on security authorization](guide:security-authorization).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @since 2.0
@@ -467,6 +469,29 @@ class DbManager extends BaseManager
         foreach ($query->all($this->db) as $row) {
             $roles[$row['name']] = $this->populateItem($row);
         }
+        return $roles;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getChildRoles($roleName)
+    {
+        $role = $this->getRole($roleName);
+
+        if (is_null($role)) {
+            throw new InvalidParamException("Role \"$roleName\" not found.");
+        }
+
+        $result = [];
+        $this->getChildrenRecursive($roleName, $this->getChildrenList(), $result);
+
+        $roles = [$roleName => $role];
+
+        $roles += array_filter($this->getRoles(), function (Role $roleItem) use ($result) {
+            return array_key_exists($roleItem->name, $result);
+        });
+
         return $roles;
     }
 

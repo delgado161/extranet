@@ -46,7 +46,14 @@ use yii\helpers\Url;
         </div>
         <div class="panel-body">
             <div id="List_Clientes_select">
-                <span class="SN_LISTA">Aun no se ha agregado persona de contacto<br></span>
+                <?php
+                foreach ($Lista_contactos as $key => $valor) {
+                    echo '<div class="form-group field-clientes-fk_presona_ref has-success"><div class=""><div class="input-group"><input readonly id="' . $key . '" value="' . $valor . '" type="text" class="form-control" name="List_Clientes[' . $key . ']"><span class="input-group-btn"><button type="button" class="btn btn-danger list_delete" id="btn_lst' . $key . '" onclick="delete_list(this.id,\'List_Clientes_select\')"><i class="fa fa-trash-o" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
+                    $this->registerJS( ' $("#List_Clientes option[value=\''.$key.'\']").remove();');
+                }
+                ?>
+
+                <span class="SN_LISTA" style="<?= (!empty($Lista_contactos) ? 'display:none' : '') ?>">Aun no se ha agregado persona de contacto<br></span>
             </div>
         </div>
     </div>
@@ -93,6 +100,3 @@ use yii\helpers\Url;
 
 
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Launch demo modal
-</button>

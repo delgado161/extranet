@@ -16,7 +16,7 @@ use yii\widgets\MaskedInput;
 
 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">  
     <?php
-    $listdata = ArrayHelper::map(TipoDocumento::find()->all(), 'id_tipo_documento', 'nombre');
+    $listdata = ArrayHelper::map(TipoDocumento::find()->where(['tributario' => 0])->all(), 'id_tipo_documento', 'nombre');
     echo $form->field($model, 'fk_documento')->dropDownList($listdata, ['prompt' => '', 'id' => 'user_dropdown2']);
     ?>
 </div>
@@ -44,20 +44,7 @@ use yii\widgets\MaskedInput;
             'clientOptions' => ['dateFormat' => 'dd-mm-yy',],
             'options' => [ 'class' => 'form-control', 'readonly' => "readonly"]
         ])
-//        use kartik\widgets\DatePicker;
-//echo $form->field($model, 'fl_nacimiento')->widget(DatePicker::classname(), [
-//            'options' => [
-//                'placeholder' => 'Enter birth date ...',
-//                'class' => 'form-control', 'readonly' => "readonly"],
-//    
-//            'pluginOptions' => [
-//                'autoclose' => true,
-//                
-//            ]
-//        ]);
         ?>
-
-
     </div>
 </div>
 
