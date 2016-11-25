@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25/11/2016, 03:20:08 PM
+    Author     : Roberto Delgado
+*/
+
+.sortable.grid li {
+
+    min-width: 200px !important;
+    min-height: 200px !important;
+    padding-top: 20px;
+    color:white;
+}
+
+.sortable_color_1 {
+    background: rgb(32, 134, 27);
+}
+
+.sortable_color_2 {
+    background: #9341ad;
+}
+
+.sortable_color_3 {
+    background: #ff9b00;
+}
+
+.sortable_color_4 {
+    background: #dc4040;
+}

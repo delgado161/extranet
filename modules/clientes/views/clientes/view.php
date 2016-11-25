@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use kartik\sortable\Sortable;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\usuarios\models\Clientes */
@@ -69,6 +70,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => $direccion_completa,
                     ],
                     [
+                        'label' => 'Referencias',
+                        'format' => 'raw',
+                        'value' => function($data) {
+               
+                if(!empty($data->fkClienteRef)){
+                   $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="'.$data->fkClienteRef->nombre.'" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
+                }
+                
+                if(!empty($data->fkPresonaRef)){
+                   $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="'.$data->fkPresonaRef->nombre.'" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
+                }
+                 
+                            return $valor;
+                            ;
+                        },
+                    ],
+                    [
                         'label' => 'Estatus',
                         'format' => 'raw',
                         'value' => Yii::$app->Toolbox->flipSwitch($model->id_cliente, ($model->status == 0 ? '' : 'checked'), null, Url::to(['/usuarios/personas/udpswitch', 'id' => $model->id_cliente], true)),
@@ -77,21 +95,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
             ?>
             <br>
-
             <?php
-            echo kartik\file\Sortable::widget([
+            echo Sortable::widget([
                 'type' => 'grid',
                 'items' => [
-                    ['content' => '<div class="grid-item text-danger">Item 1</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 2</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 3</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 4</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 5</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 6</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 7</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 8</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 9</div>'],
-                    ['content' => '<div class="grid-item text-danger">Item 10</div>'],
+                    ['options' => ['class' => 'sortable_color_1'], 'content' => '<div class="grid-item" ><i style="font-size: 120px;color:white;" class="icon-joker_portafolio2" aria-hidden="true"></i><br><h4>Proyectos</h4></div>'],
+                    ['options' => ['class' => 'sortable_color_2'], 'content' => '<div class="grid-item"><i style="font-size: 120px;color:white;" class="icon-joker__libreta-22" aria-hidden="true"></i><br><h4>Contactos</h4></div>'],
+                    ['options' => ['class' => 'sortable_color_3'], 'content' => '<div class="grid-item"><i style="font-size: 120px;color:white;" class="icon-joker_graficas" aria-hidden="true"></i><br><h4>Reportes</h4></div>'],
+                    ['options' => ['class' => 'sortable_color_4'], 'content' => '<div class="grid-item"><i style="font-size: 120px;color:white;" class="icon-joker_Archivar" aria-hidden="true"></i><br><h4>Documentos</h4></div>'],
                 ]
             ]);
             ?>

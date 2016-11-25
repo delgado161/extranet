@@ -25,6 +25,7 @@ class ClientesController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'udpswitch' => ['POST'],
                 ],
             ],
         ];
@@ -101,7 +102,6 @@ class ClientesController extends Controller {
                 }
                 Yii::$app->Toolbox->MSJ_SUCCESS('Creada Correctamente', 'Cliente: ' . $model->nombre, ['bottom', 'right']);
 //                return $this->redirect(Yii::$app->Toolbox->verificar_modal(['view', 'id' => $model->id_cliente]));
-
 //                return $this->render('create', ['model' => $model, 'model_direcciones' => $model_direcciones, 'Lista_contactos' => $_POST['List_Clientes']]);
                 return $this->redirect(['view', 'id' => $model->id_cliente]);
             } else {
@@ -160,6 +160,13 @@ class ClientesController extends Controller {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
+    }
+
+    public function actionUdpswitch($id) {
+        $model = $this->findModel($id);
+        $model->status = ($model->status == 0) ? 1 : 0;
+        $model->save();
+        return;
     }
 
 }

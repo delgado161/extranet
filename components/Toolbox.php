@@ -115,7 +115,7 @@ class Toolbox extends Component {
     }
 
     public function generadorkey($length) {
-        $pattern = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-_@#$";
+        $pattern = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
 
         for ($i = 0; $i < $length; $i++) {
             $key .= $pattern{rand(0, 40)};

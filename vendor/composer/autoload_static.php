@@ -37,6 +37,7 @@ class ComposerStaticInite7bbc9e18f4d13c4675486b0c8f56260
             'kartik\\time\\' => 12,
             'kartik\\switchinput\\' => 19,
             'kartik\\spinner\\' => 15,
+            'kartik\\sortable\\' => 16,
             'kartik\\slider\\' => 14,
             'kartik\\sidenav\\' => 15,
             'kartik\\select2\\' => 15,
@@ -140,6 +141,10 @@ class ComposerStaticInite7bbc9e18f4d13c4675486b0c8f56260
         'kartik\\spinner\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-spinner',
+        ),
+        'kartik\\sortable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-sortable',
         ),
         'kartik\\slider\\' => 
         array (

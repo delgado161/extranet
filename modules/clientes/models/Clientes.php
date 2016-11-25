@@ -47,7 +47,7 @@ class Clientes extends \yii\db\ActiveRecord {
             [['fk_presona_ref', 'status'], 'integer'],
             [['id_cliente', 'fk_cliente_ref', 'nombre_corto'], 'string', 'max' => 100],
             [['nombre'], 'string', 'max' => 250],
-            [['telefono_1', 'telefono_2', 'fax', 'rif', 'fk_documento'], 'string', 'max' => 45],
+            [['telefono_1', 'telefono_2', 'fax', 'rif'], 'string', 'max' => 45],
             [['id_cliente'], 'unique'],
             [['fk_cliente_ref'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['fk_cliente_ref' => 'id_cliente']],
             [['fk_presona_ref'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['fk_presona_ref' => 'id_persona']],
