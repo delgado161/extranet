@@ -253,7 +253,7 @@ class Personas extends \yii\db\ActiveRecord {
 
         $persona = Personas::find()->where(['n_documento' => $this->n_documento, 'fk_documento' => $this->fk_documento]);
 
-        if ($persona && $persona_update->n_documento!= $this->n_documento) {
+        if ($persona && ($persona_update->n_documento!= $this->n_documento || $persona_update->fk_documento!= $this->fk_documento )) {
             $this->addError('n_documento', 'Persona ya registrada');
               $this->addError('fk_documento', '');
         }

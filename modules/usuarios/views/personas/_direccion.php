@@ -38,7 +38,7 @@ use kartik\select2\Select2;
     if (!empty($pais->lp_pais_id))
         $listdata = ArrayHelper::map(\app\modules\configuraciones\models\Estados::find()->all(), 'lp_estado_id', 'nombre');
     else
-        $listdata = '';
+        $listdata = [];
 
     echo '<label class="control-label">Estado</label>';
     echo Select2::widget([
@@ -61,7 +61,7 @@ use kartik\select2\Select2;
     if (!empty($municipio->lp_municipio_id))
         $listdata = ArrayHelper::map(Municipios::find()->all(), 'lp_municipio_id', 'nombre');
     else
-        $listdata = '';
+        $listdata = [];
 
     echo '<label class="control-label">Municipio</label>';
     echo Select2::widget([
@@ -84,7 +84,7 @@ use kartik\select2\Select2;
     if (!empty($model_direcciones->lf_direccion_parroquia))
         $listdata = ArrayHelper::map(Parroquias::find()->all(), 'lp_parroquia_id', 'nombre');
     else
-        $listdata = '';
+        $listdata = [];
 
     echo $form->field($model_direcciones, 'lf_direccion_parroquia')->widget(Select2::classname(), [
         'data' => $listdata,

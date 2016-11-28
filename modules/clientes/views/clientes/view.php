@@ -35,14 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             list($pais, $estado, $municipio, $parroquia) = Yii::$app->Toolbox->buscar_PME($model_direcciones->lf_direccion_parroquia);
 
-            $direccion_completa = $pais->nombre . ", ESTADO " . $estado->nombre . " MUNICIPIO " . $municipio->nombre . " PARROQUIA " . $parroquia->nombre . ", ";
-            $direccion_completa.=(!empty($model_direcciones->urbarn_barrio)) ? $model_direcciones->t_urban_barr . " " . $model_direcciones->urbarn_barrio . ", " : '';
-            $direccion_completa.=(!empty($model_direcciones->calle_av)) ? $model_direcciones->t_calle_av . " " . $model_direcciones->calle_av . ", " : '';
-            $direccion_completa.=$model_direcciones->tipovivienda . " " . $model_direcciones->datovivienda . " ";
-            $direccion_completa.="<br><br> CODIGO POSTAL" . $model_direcciones->codpostal;
-
-            $direccion_completa.= "<br><br>PUNTO DE REFERENCIA<br>" . $model_direcciones->lfDireccionPtoreferencia->nombre . " " . $model_direcciones->referencia;
-            $direccion_completa.='<div style="float: right;color:deeppink;" data-toggle = "modal"  data-target = "#myModal" onclick = src_frame(\'' . Url::to(['/site/map?modal=1&lat=' . $model_direcciones->lat . "&lgn=" . $model_direcciones->lng], true) . '\',\'\')>Ver <i class="fa icon-joker_dirreción fa-3x" aria-hidden="true"></i></div>';
+            if (!empty($direccion_completa)) {
+                $direccion_completa = $pais->nombre . ", ESTADO " . $estado->nombre . " MUNICIPIO " . $municipio->nombre . " PARROQUIA " . $parroquia->nombre . ", ";
+                $direccion_completa.=(!empty($model_direcciones->urbarn_barrio)) ? $model_direcciones->t_urban_barr . " " . $model_direcciones->urbarn_barrio . ", " : '';
+                $direccion_completa.=(!empty($model_direcciones->calle_av)) ? $model_direcciones->t_calle_av . " " . $model_direcciones->calle_av . ", " : '';
+                $direccion_completa.=$model_direcciones->tipovivienda . " " . $model_direcciones->datovivienda . " ";
+                $direccion_completa.="<br><br> CODIGO POSTAL" . $model_direcciones->codpostal;
+                $direccion_completa.= "<br><br>PUNTO DE REFERENCIA<br>" . $model_direcciones->lfDireccionPtoreferencia->nombre . " " . $model_direcciones->referencia;
+                $direccion_completa.='<div style="float: right;color:deeppink;" data-toggle = "modal"  data-target = "#myModal" onclick = src_frame(\'' . Url::to(['/site/map?modal=1&lat=' . $model_direcciones->lat . "&lgn=" . $model_direcciones->lng], true) . '\',\'\')>Ver <i class="fa icon-joker_dirreción fa-3x" aria-hidden="true"></i></div>';
+            } else {
+                $direccion_completa = "";
+            }
             ?>
 
             <?=
@@ -73,15 +76,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => 'Referencias',
                         'format' => 'raw',
                         'value' => function($data) {
-               
-                if(!empty($data->fkClienteRef)){
-                   $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="'.$data->fkClienteRef->nombre.'" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
-                }
-                
-                if(!empty($data->fkPresonaRef)){
-                   $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="'.$data->fkPresonaRef->nombre.'" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
-                }
-                 
+                            $valor = '';
+                            if (!empty($data->fkClienteRef)) {
+                                $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="' . $data->fkClienteRef->nombre . '" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
+                            }
+
+                            if (!empty($data->fkPresonaRef)) {
+                                $valor .= '<div class="form-group"><div class=""><div class="input-group"><input readonly="" value="' . $data->fkPresonaRef->nombre . '" type="text" class="form-control" name="List_Clientes[2]"><span class="input-group-btn"><button type="button" class="btn btn-info" onclick=""><i class="fa fa fa-eye" aria-hidden="true"></i></button></span></div><div class="help-block"></div></div></div>';
+                            }
+
                             return $valor;
                             ;
                         },

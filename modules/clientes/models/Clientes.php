@@ -45,6 +45,7 @@ class Clientes extends \yii\db\ActiveRecord {
         return [
             [['id_cliente', 'nombre', 'nombre_corto', 'telefono_1', 'rif', 'status', 'email', 't_empresa', 'fk_documento'], 'required'],
             [['fk_presona_ref', 'status'], 'integer'],
+            ['rif', 'validateCliente'],
             [['id_cliente', 'fk_cliente_ref', 'nombre_corto'], 'string', 'max' => 100],
             [['nombre'], 'string', 'max' => 250],
             [['telefono_1', 'telefono_2', 'fax', 'rif'], 'string', 'max' => 45],
@@ -123,6 +124,23 @@ class Clientes extends \yii\db\ActiveRecord {
      */
     public static function find() {
         return new \app\modules\clientes\models\query\ClientesQuery(get_called_class());
+
+    }
+
+    public function validateCliente($attribute, $params) {
+//        var_dump($this->id_cliente);
+        if (!$this->isNewRecord) {
+            $cliente_update = Clientes::findOne($this->id_cliente);
+        } else {
+            $cliente_update = new Clientes();
+        }
+                    
+        $cliente = Clientes::find()->where(['fk_documento' => $this->fk_documento, 'rif' => $this->rif]);
+
+        if (!empty($cliente) && ($cliente_update->rif != $this->rif || $cliente_update->fk_documento != $this->fk_documento )) {
+            $this->addError('rif', 'Cliente ya registrada');
+            $this->addError('fk_documento', '');
+        }
 
     }
 
