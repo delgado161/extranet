@@ -15,15 +15,12 @@ use app\modules\clientes\models\Clientes;
     <?php
     $listdata = ArrayHelper::map(Clientes::findAll(['status' => '1']), 'id_cliente', 'nombre');
 
-    echo '<label class="control-label">Cliente</label>';
-    echo Select2::widget([
-        'name' => 'Proyectos[fk_cliente]',
-        'value' => $model->fk_cliente, // initial value
+
+    echo $form->field($model, 'fk_cliente')->widget(Select2::classname(), [
         'data' => $listdata,
-        'options' => ['placeholder' => 'Seleccione...',
-        ],
+        'options' => ['placeholder' => 'Seleccione...'],
         'pluginOptions' => [
-            'allowClear' => true,
+            'allowClear' => true
         ],
         'addon' => [
             'append' => [
@@ -42,15 +39,12 @@ use app\modules\clientes\models\Clientes;
                 return $model['nombre'] . ' ' . $model['s_nombre'] . ' ' . $model['apellido'] . ' ' . $model['s_apellido'];
             });
 
-    echo '<label class="control-label">Lider</label>';
-    echo Select2::widget([
-        'name' => 'Proyectos[fk_lider]',
-        'value' => $model->fk_lider, // initial value
+
+    echo $form->field($model, 'fk_lider')->widget(Select2::classname(), [
         'data' => $listdata,
-        'options' => ['placeholder' => 'Seleccione...', 'id' => 'referencia_'
-        ],
+        'options' => ['placeholder' => 'Seleccione...'],
         'pluginOptions' => [
-            'allowClear' => true,
+            'allowClear' => true
         ],
         'addon' => [
             'append' => [
@@ -64,16 +58,11 @@ use app\modules\clientes\models\Clientes;
     </br>
 
     <?php
-
-    echo '<label class="control-label">Lider</label>';
-    echo Select2::widget([
-        'name' => 'Proyectos[fk_contacto]',
-        'value' => $model->fk_contacto, // initial value
+    echo $form->field($model, 'fk_contacto')->widget(Select2::classname(), [
         'data' => $listdata,
-        'options' => ['placeholder' => 'Seleccione...', 'id' => 'referencia_3'
-        ],
+        'options' => ['placeholder' => 'Seleccione...'],
         'pluginOptions' => [
-            'allowClear' => true,
+            'allowClear' => true
         ],
         'addon' => [
             'append' => [
@@ -87,16 +76,11 @@ use app\modules\clientes\models\Clientes;
     </br>
 
     <?php
-
-    echo '<label class="control-label">Lider</label>';
-    echo Select2::widget([
-        'name' => 'Proyectos[fk_contact_alterno]',
-        'value' => $model->fk_contact_alterno, // initial value
+    echo $form->field($model, 'fk_contact_alterno')->widget(Select2::classname(), [
         'data' => $listdata,
-        'options' => ['placeholder' => 'Seleccione...', 'id' => 'referencia_2'
-        ],
+        'options' => ['placeholder' => 'Seleccione...'],
         'pluginOptions' => [
-            'allowClear' => true,
+            'allowClear' => true
         ],
         'addon' => [
             'append' => [
@@ -109,8 +93,8 @@ use app\modules\clientes\models\Clientes;
     ?>
     </br>
 
-    <?php // echo $form->field($model, 'fk_contacto')->textInput() ?>
+    <?php // echo $form->field($model, 'fk_contacto')->textInput()  ?>
 
-    <?php // echo $form->field($model, 'fk_contact_alterno')->textInput() ?>
+    <?php // echo $form->field($model, 'fk_contact_alterno')->textInput()  ?>
 
 </div>

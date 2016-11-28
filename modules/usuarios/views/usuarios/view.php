@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'ultimo_login',
                     [
                         'label' => 'Estatus',
-                        'value' => ($model->status == 1) ? Activo : Inactivo,
+                        'value' => ($model->status == 1) ? 'Activo' : 'Inactivo',
                     ],
                 ],
             ])

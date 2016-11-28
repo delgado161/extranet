@@ -11,8 +11,6 @@ $this->title = Yii::t('app', 'Crear Clientes');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clientes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-var_dump($model->errors);
-
 ?>
 
 <div class="personas-create panel_up"  >

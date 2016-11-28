@@ -80,7 +80,7 @@ class ClientesController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model_direcciones->load(Yii::$app->request->post())) {
             $model->status = 1;
-            $model->id_cliente = Yii::$app->Toolbox->randomText(5, $model->tableName(), id_cliente);
+            $model->id_cliente = Yii::$app->Toolbox->randomText(5, $model->tableName(), 'id_cliente');
 
             $model_direcciones->lat = floatval($model_direcciones->lat);
             $model_direcciones->lng = floatval($model_direcciones->lng);
@@ -167,6 +167,7 @@ class ClientesController extends Controller {
         $model->status = ($model->status == 0) ? 1 : 0;
         $model->save();
         return;
+
     }
 
 }

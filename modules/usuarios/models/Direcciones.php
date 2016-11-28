@@ -3,6 +3,7 @@
 namespace app\modules\usuarios\models;
 
 use Yii;
+use app\modules\usuarios\models\Ptoreferencias;
 
 /**
  * This is the model class for table "tbl_direcciones".
