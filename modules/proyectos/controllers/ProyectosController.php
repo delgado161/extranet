@@ -8,17 +8,17 @@ use app\modules\proyectos\models\ProyectosSEARCH;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProyectosController implements the CRUD actions for Proyectos model.
  */
-class ProyectosController extends Controller
-{
+class ProyectosController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -27,21 +27,22 @@ class ProyectosController extends Controller
                 ],
             ],
         ];
+
     }
 
     /**
      * Lists all Proyectos models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ProyectosSEARCH();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
@@ -49,11 +50,11 @@ class ProyectosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
+
     }
 
     /**
@@ -61,17 +62,21 @@ class ProyectosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Proyectos();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_proyectos]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->status = 1;
+            $model->fk_status = 1;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_proyectos]);
+            } else {
+                return $this->render('create', ['model' => $model,]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->render('create', ['model' => $model,]);
         }
+
     }
 
     /**
@@ -80,17 +85,17 @@ class ProyectosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_proyectos]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
+
     }
 
     /**
@@ -99,11 +104,11 @@ class ProyectosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+
     }
 
     /**
@@ -113,12 +118,34 @@ class ProyectosController extends Controller
      * @return Proyectos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Proyectos::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
     }
+
+    public function actionDocumentos() {
+
+
+        $model = new Proyectos();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+//                  return $this->redirect(['documentos', 'model' => $model]);
+//                return $this->render('documentos', ['model' => $model]);
+                return '{}';
+            }
+        } else {
+            return $this->render('documentos', ['model' => $model]);
+        }
+
+    }
+
+   
+
 }

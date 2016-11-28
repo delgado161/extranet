@@ -1,5 +1,7 @@
 <?php
-use yii\widgets\ActiveForm;
+
+//use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -20,7 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
         <div class="panel-body">
+            
+            
             <?php
+            
+          
+            
             $form = ActiveForm::begin([
                         'options' => [ 'id' => $model->tableName() . "_form",
                             'class' => 'tab_validate',
@@ -49,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn_accione" >
                 <div class="form-group">
                     <br>

@@ -10,6 +10,7 @@ use app\modules\configuraciones\models\Estados;
 use app\modules\configuraciones\models\Paises;
 use app\modules\configuraciones\models\Parroquias;
 use kartik\widgets\Growl;
+use app\modules\configuraciones\models\Parametros;
 
 class Toolbox extends Component {
 
@@ -129,6 +130,12 @@ class Toolbox extends Component {
         }
 
         return $key;
+
+    }
+
+    public function var_tiempo() {
+        $_addon = Parametros::find()->where(['id_parametro' => 1])->one();
+        return $_addon->valor;
 
     }
 

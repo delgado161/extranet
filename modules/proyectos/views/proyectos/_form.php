@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\modules\configuraciones\models\TipoProyecto;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\modules\proyectos\models\Proyectos */
 /* @var $form yii\widgets\ActiveForm */
@@ -21,15 +22,12 @@ use app\modules\configuraciones\models\TipoProyecto;
         <?php
         $listdata = ArrayHelper::map(TipoProyecto::findAll(['status' => '1']), 'id_tipo_proyecto', 'nombre');
 
-        echo '<label class="control-label">Tipo de Proyecto</label>';
-        echo Select2::widget([
-            'name' => 'Proyectos[fk_tipo]',
-            'value' => $model->fk_tipo, // initial value
+
+        echo $form->field($model, 'fk_tipo')->widget(Select2::classname(), [
             'data' => $listdata,
-            'options' => ['placeholder' => 'Seleccione...',
-            ],
+            'options' => ['placeholder' => 'Seleccione...'],
             'pluginOptions' => [
-                'allowClear' => true,
+                'allowClear' => true
             ],
             'addon' => [
                 'append' => [
@@ -43,6 +41,13 @@ use app\modules\configuraciones\models\TipoProyecto;
         <br>
     </div>
 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
+        <?php 
+        
+        echo $form->field($model, 'tiempo',[ 'addon' => ['append' => ['content'=>Yii::$app->Toolbox->var_tiempo]]])->textInput() ?>
+        <br>
+    </div>
+
 
 
 
@@ -51,9 +56,9 @@ use app\modules\configuraciones\models\TipoProyecto;
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">  
         <?php echo $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-        
-            
-            <?php
+
+
+        <?php
         // echo $form->field($model, 'fk_status')->textInput() 
 //$leadsCount = TipoProyecto::find(['status' => '1'])->count();
 //
@@ -63,17 +68,17 @@ use app\modules\configuraciones\models\TipoProyecto;
         <?php echo $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
         <?php echo $form->field($model, 'Keywords')->textarea(['rows' => 6]) ?>
 
-        <?php // echo $form->field($model, 'status')->textInput()   ?>
+        <?php // echo $form->field($model, 'status')->textInput()    ?>
         <?php // echo $form->field($model, 'id_proyectos')->textInput()  ?>
 
     </div>
 
     <!--    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
-    <?php // echo $form->field($model, 'fl_inicio')->textInput()  ?>
+    <?php // echo $form->field($model, 'fl_inicio')->textInput()   ?>
         </div>
     
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">  
-    <?php // echo $form->field($model, 'fl_fin')->textInput()  ?>
+    <?php // echo $form->field($model, 'fl_fin')->textInput()   ?>
         </div>-->
 
     <!--
